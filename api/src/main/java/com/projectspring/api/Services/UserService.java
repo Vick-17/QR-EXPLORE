@@ -88,8 +88,8 @@ public class UserService extends GenericServiceImpl<UserEntities, Integer, UserD
 
     public UserDto createUser(UserDto users) {
         UserEntities existingUser = repository.findByUsername(users.getUsername());
-        if (existingUser != null) {
-            throw new RuntimeException("L'adresse e-mail est déjà utilisée.");
+        if (existingUser != null && existingUser.getUsername().equals(users.getUsername())) {
+            throw new RuntimeException("L'adresse ou le nom d'utilisateur e-mail est déjà utilisée.");
         }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String passwordEncode = bCryptPasswordEncoder.encode(users.getPassword());

@@ -69,7 +69,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             // requête POST
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, String> map = objectMapper.readValue(request.getInputStream(), Map.class);
-            username = map.get("name");
+            username = map.get("username");
             password = map.get("password");
 
             logger.debug("Authentification pour l'utilisateur: {}", username);
