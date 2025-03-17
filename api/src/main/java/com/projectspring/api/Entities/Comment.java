@@ -31,6 +31,8 @@ public class Comment {
     @JsonIgnore
     @Transient
     private MultipartFile picture;
+
+    private String imageName;
     
     @ManyToOne
     @JoinColumn(name = "place_id")

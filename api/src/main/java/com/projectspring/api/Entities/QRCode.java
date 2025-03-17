@@ -23,6 +23,8 @@ public class QRCode {
     private Long id;
 
     private String qrName;
+
+    private String imageName;
     
     // A voir comment on génére le qrcode et comment ont le stock
     // @Lob
