@@ -1,0 +1,17 @@
+header {
+    margin-top:  1vh;
+    margin-left: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+button {
+    padding-left: 10rem;
+    padding-right: 10rem;
+}
+
+.toolbar {
+    border-bottom: 1px white !important;
+}

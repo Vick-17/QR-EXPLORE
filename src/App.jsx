@@ -1,15 +1,17 @@
-import { useState } from 'react'
-import FacebookIcon from '@mui/icons-material/Facebook';
-import './App.css'
+// import { useState } from 'react'
+import Header from './Header';
+
+import './App.css';
 
 function App() {
 
 
   return (
     <>
-      <div>
+        <Header />
+      {/* <div>
         <FacebookIcon />
-      </div>
+      </div> */}
     </>
   )
 }
