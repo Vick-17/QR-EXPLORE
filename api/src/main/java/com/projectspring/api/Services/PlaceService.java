@@ -7,12 +7,12 @@ import com.projectspring.api.Entities.Place;
 import com.projectspring.api.Generic.GenericService;
 import com.projectspring.api.Generic.GenericServiceImpl;
 import com.projectspring.api.Mappers.PlaceMapper;
-import com.projectspring.api.Repositories.PlaceRepositories;
+import com.projectspring.api.Repositories.PlaceRepository;
 
 @Service
-public class PlaceService extends GenericServiceImpl<Place, Integer, PlaceDto, PlaceRepositories, PlaceMapper> implements GenericService<PlaceDto, Integer> {
+public class PlaceService extends GenericServiceImpl<Place, Integer, PlaceDto, PlaceRepository, PlaceMapper> implements GenericService<PlaceDto, Integer> {
 
-    public PlaceService(PlaceRepositories repository, PlaceMapper mapper) {
+    public PlaceService(PlaceRepository repository, PlaceMapper mapper) {
         super(repository, mapper);
     }
     

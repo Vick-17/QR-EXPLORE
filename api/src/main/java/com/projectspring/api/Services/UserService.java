@@ -19,8 +19,8 @@ import com.projectspring.api.Generic.GenericService;
 import com.projectspring.api.Generic.GenericServiceImpl;
 import com.projectspring.api.Mappers.UserMapper;
 import com.projectspring.api.Entities.Role;
-import com.projectspring.api.Repositories.RoleRepositories;
-import com.projectspring.api.Repositories.UserRepositories;
+import com.projectspring.api.Repositories.RoleRepository;
+import com.projectspring.api.Repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -30,12 +30,12 @@ import jakarta.transaction.Transactional;
  * "AuthenticationManager"
  */
 @Service
-public class UserService extends GenericServiceImpl<User, Integer, UserDto, UserRepositories, UserMapper>
+public class UserService extends GenericServiceImpl<User, Integer, UserDto, UserRepository, UserMapper>
         implements UserDetailsService, GenericService<UserDto, Integer> {
 
     
 
-    public UserService(UserRepositories repository, UserMapper mapper) {
+    public UserService(UserRepository repository, UserMapper mapper) {
         super(repository, mapper);
     }
 
@@ -45,10 +45,10 @@ public class UserService extends GenericServiceImpl<User, Integer, UserDto, User
     private static final String USER_FOUND_MESSAGE = "L'utilisateur avec le nom %s existe en base de données.";
 
     @Autowired
-    private UserRepositories userRepositories;
+    private UserRepository userRepositories;
 
     @Autowired
-    private RoleRepositories roleRepositories;
+    private RoleRepository roleRepositories;
 
     private Logger logger = LoggerFactory.getLogger(UserService.class);
 

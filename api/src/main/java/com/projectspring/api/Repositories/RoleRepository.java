@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.projectspring.api.Entities.Role;
 
-public interface RoleRepositories extends JpaRepository<Role, Integer> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
     Role findByName(String name);
     
 }

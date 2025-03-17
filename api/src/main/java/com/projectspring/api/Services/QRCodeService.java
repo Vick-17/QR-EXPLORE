@@ -7,12 +7,12 @@ import com.projectspring.api.Entities.QRCode;
 import com.projectspring.api.Generic.GenericService;
 import com.projectspring.api.Generic.GenericServiceImpl;
 import com.projectspring.api.Mappers.QRCodeMapper;
-import com.projectspring.api.Repositories.QRCodeRepositories;
+import com.projectspring.api.Repositories.QRCodeRepository;
 
 @Service
-public class QRCodeService extends GenericServiceImpl<QRCode, Integer, QRCodeDto, QRCodeRepositories, QRCodeMapper> implements GenericService<QRCodeDto, Integer> {
+public class QRCodeService extends GenericServiceImpl<QRCode, Integer, QRCodeDto, QRCodeRepository, QRCodeMapper> implements GenericService<QRCodeDto, Integer> {
 
-    public QRCodeService(QRCodeRepositories repository, QRCodeMapper mapper) {
+    public QRCodeService(QRCodeRepository repository, QRCodeMapper mapper) {
         super(repository, mapper);
     }
     

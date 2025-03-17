@@ -7,12 +7,12 @@ import com.projectspring.api.Entities.PlaceSubType;
 import com.projectspring.api.Generic.GenericService;
 import com.projectspring.api.Generic.GenericServiceImpl;
 import com.projectspring.api.Mappers.PlaceSubTypeMapper;
-import com.projectspring.api.Repositories.PlaceSubTypeRepositories;
+import com.projectspring.api.Repositories.PlaceSubTypeRepository;
 
 @Service
-public class PlaceSubTypeService extends GenericServiceImpl<PlaceSubType, Integer, PlaceSubTypeDto, PlaceSubTypeRepositories, PlaceSubTypeMapper> implements GenericService<PlaceSubTypeDto, Integer> {
+public class PlaceSubTypeService extends GenericServiceImpl<PlaceSubType, Integer, PlaceSubTypeDto, PlaceSubTypeRepository, PlaceSubTypeMapper> implements GenericService<PlaceSubTypeDto, Integer> {
 
-    public PlaceSubTypeService(PlaceSubTypeRepositories repository, PlaceSubTypeMapper mapper) {
+    public PlaceSubTypeService(PlaceSubTypeRepository repository, PlaceSubTypeMapper mapper) {
         super(repository, mapper);
     }
     

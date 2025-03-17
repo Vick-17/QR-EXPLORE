@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.projectspring.api.Entities.Tour;
 
-public interface TourRepositories extends JpaRepository<Tour, Integer> {
+public interface TourRepository extends JpaRepository<Tour, Integer> {
     
 }
