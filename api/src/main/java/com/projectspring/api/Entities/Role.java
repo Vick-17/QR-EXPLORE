@@ -1,4 +1,4 @@
-package com.projectspring.api.Models;
+package com.projectspring.api.Entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "roles")
-public class RoleEntities {
+public class Role {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

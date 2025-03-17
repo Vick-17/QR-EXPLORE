@@ -2,9 +2,9 @@ package com.projectspring.api.Repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.projectspring.api.Models.UserEntities;
+import com.projectspring.api.Entities.User;
 
-public interface UserRepositories extends JpaRepository<UserEntities, Integer> {
+public interface UserRepositories extends JpaRepository<User, Integer> {
     
-    UserEntities findByUsername(String username);
+    User findByUsername(String username);
 }

@@ -1,13 +1,13 @@
 package com.projectspring.api.Mappers;
 
 
+import com.projectspring.api.Entities.User;
 import org.mapstruct.Mapper;
 
 import com.projectspring.api.Dto.UserDto;
 import com.projectspring.api.Generic.GenericMapper;
-import com.projectspring.api.Models.UserEntities;
 
 @Mapper
-public interface UserMapper extends GenericMapper<UserEntities, UserDto> {
+public interface UserMapper extends GenericMapper<User, UserDto> {
     
 }
