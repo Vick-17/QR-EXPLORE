@@ -22,20 +22,32 @@ import lombok.experimental.Accessors;
 @Entity
 @Table(name = "comment")
 public class Comment {
+
+    // clé primaire
     @Id
+   // auto increment d'un valeur unique
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String description;
 
+    /*
+     Le champ picture est un fichier (image dans notre cas).
+     Il est ignoré lors de la sérialisation en JSON (ce qui signifie qu'il ne
+     sera pas inclus dans la réponse API JSON).
+     */
     @JsonIgnore
-    @Transient
+    @Transient // Cette annotaion indique que le champ ne sera pas persisté dans la base de données
     private MultipartFile picture;
 
     private String imageName;
     
+    /*
+    Relation entre le commentaire et le lieu
+    Un commentaire est associé à un seul lieu
+    */
     @ManyToOne
-    @JoinColumn(name = "place_id")
+    @JoinColumn(name = "place_id") // place_id est la colonne dans la base de données qui relie les 2 table
     private Place place;
 
 }

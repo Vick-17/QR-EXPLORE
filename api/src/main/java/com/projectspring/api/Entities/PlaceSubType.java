@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Entity
 @Table(name = "place_sub_type")
 public class PlaceSubType {
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
