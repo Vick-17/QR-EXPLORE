@@ -27,6 +27,9 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
+  private String lastName;
+  private String firstName;
+
   @Column(name = "username")
   private String username;
 
@@ -39,5 +42,9 @@ public class User {
   @ManyToMany
   @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "id_role"), inverseJoinColumns = @JoinColumn(name = "id_user"))
   private Collection<Role> roles = new ArrayList<>(); // ⚠️ Évite le NullPointerException
+
+  @ManyToMany
+  @JoinTable(name = "recording", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_place"))
+  private Collection<Place> recording = new ArrayList<>();
 
 }
