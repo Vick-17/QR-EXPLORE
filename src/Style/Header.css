@@ -1,0 +1,70 @@
+/* Style global */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+header {
+    display: flex;
+    align-items: start;
+    justify-content: space-around !important;
+    padding-left: 11%;
+}
+
+.items {
+    margin: 0 1.5rem;
+    /* padding: 0em 2.5em; */
+    color: white !important;
+}
+
+.items-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid white;
+}
+
+.nav-bar {
+  /* background-color: rgba(0, 0, 0, 0.6) !important; */
+}
+
+.IconButton {
+  color: white;
+}
+
+.QrCodeIcon {
+  color: white;
+}
+
+.AccountIcon {
+  margin-left: 1rem;
+  color: white;
+}
+
+.dropdown-button {
+  border: 0;
+  background-color: none !important;
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(35%);
+  z-index: 100;
+}
+
+
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: relative;
+    margin-top: 20px;
+    margin-right: 20%;
+    /* background-color: rgba(0, 0, 0, 0.6); Fond semi-transparent */
+  }

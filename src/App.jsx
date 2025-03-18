@@ -1,7 +1,9 @@
 // import { useState } from 'react'
 import Header from './Header';
+import Main from './MainContent';
+import Auth from './Auth';
 
-import './App.css';
+import './Style/App.css';
 
 function App() {
 
@@ -9,6 +11,8 @@ function App() {
   return (
     <>
         <Header />
+        <Main />
+        <Auth />
       {/* <div>
         <FacebookIcon />
       </div> */}
