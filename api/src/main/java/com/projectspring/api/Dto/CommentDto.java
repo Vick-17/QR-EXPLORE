@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projectspring.api.Entities.Place;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +22,8 @@ public class CommentDto implements Serializable {
     private String description;
     private String imageName;
     
-    // private MultipartFile picture;
+    @JsonIgnore
+    private MultipartFile picture;
 
     private Place place;
     
