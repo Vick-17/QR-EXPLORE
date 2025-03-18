@@ -48,5 +48,7 @@ public class Place {
     private PlaceType placeType;
 
 
-
+    @ManyToOne
+    @JoinColumn(name = "place_type_id")
+    private PlaceType placeType;
 }
