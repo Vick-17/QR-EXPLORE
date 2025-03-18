@@ -15,11 +15,13 @@ import org.springframework.web.server.ResponseStatusException;
 import com.projectspring.api.Dto.CommentDto;
 import com.projectspring.api.Entities.Comment;
 import com.projectspring.api.Entities.Place;
+import com.projectspring.api.Entities.User;
 import com.projectspring.api.Generic.GenericService;
 import com.projectspring.api.Generic.GenericServiceImpl;
 import com.projectspring.api.Mappers.CommentMapper;
 import com.projectspring.api.Repositories.CommentRepository;
 import com.projectspring.api.Repositories.PlaceRepository;
+import com.projectspring.api.Repositories.UserRepository;
 import com.projectspring.api.Services.Filestorage.FileStorageService;
 
 import java.nio.file.Path;
@@ -43,13 +45,19 @@ public class CommentService extends GenericServiceImpl<Comment, Integer, Comment
     private PlaceRepository placeRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private FileStorageService fileStorageService;
 
-    public CommentDto postCommentByPlace(CommentDto comment, int placeId) {
+    public CommentDto postCommentByPlace(CommentDto comment, int placeId, int userId) {
         try {
             // Vérifie que le lieu existe
             Place place = placeRepository.findById(placeId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found"));
+            
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
             // Récupère l'image de CommentDto
             MultipartFile picture = comment.getPicture();
@@ -76,6 +84,7 @@ public class CommentService extends GenericServiceImpl<Comment, Integer, Comment
 
             // On assigne le Place récupéré
             comment.setPlace(place);
+            comment.setUser(user);
 
             return saveOrUpdate(comment);
 

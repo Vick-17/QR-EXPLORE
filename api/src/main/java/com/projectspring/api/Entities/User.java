@@ -39,6 +39,7 @@ public class User {
   @Column(name = "password")
   private String password;
 
+
   @ManyToMany
   @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "id_role"), inverseJoinColumns = @JoinColumn(name = "id_user"))
   private Collection<Role> roles = new ArrayList<>(); // ⚠️ Évite le NullPointerException

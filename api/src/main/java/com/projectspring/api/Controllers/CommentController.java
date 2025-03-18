@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 
 @RestController
@@ -26,8 +25,8 @@ public class CommentController extends GenericController<CommentDto, Integer, Co
 
     @PostMapping(value = "/postCommentByPlace", consumes = "multipart/form-data")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentDto postCommentByPlace(@ModelAttribute CommentDto comment, @RequestParam int placeId) {
-        return service.postCommentByPlace(comment, placeId);
+    public CommentDto postCommentByPlace(@ModelAttribute CommentDto comment, @RequestParam int placeId, int userId) {
+        return service.postCommentByPlace(comment, placeId, userId);
     }
     
 }

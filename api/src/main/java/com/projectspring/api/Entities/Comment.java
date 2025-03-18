@@ -50,4 +50,8 @@ public class Comment {
     @JoinColumn(name = "place_id") // place_id est la colonne dans la base de données qui relie les 2 table
     private Place place;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }
