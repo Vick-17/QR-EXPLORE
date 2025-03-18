@@ -117,7 +117,7 @@ public CommentDto postCommentByPlace(CommentDto comment, Long placeId) {
     if (principal instanceof UserDetails userDetails) {
         username = userDetails.getUsername();
     } else {
-        username = principal.toString(); // Si c'est une String, on l'utilise directement
+        username = principal.toString();
     }
 
     // Vérification des permissions
