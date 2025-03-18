@@ -10,7 +10,7 @@ import com.projectspring.api.Mappers.TourMapper;
 import com.projectspring.api.Repositories.TourRepository;
 
 @Service
-public class TourService extends GenericServiceImpl<Tour, Integer, TourDto, TourRepository, TourMapper> implements GenericService<TourDto, Integer> {
+public class TourService extends GenericServiceImpl<Tour, Long, TourDto, TourRepository, TourMapper> implements GenericService<TourDto, Long> {
 
     public TourService(TourRepository repository, TourMapper mapper) {
         super(repository, mapper);

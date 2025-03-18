@@ -9,7 +9,7 @@ import com.projectspring.api.Services.TourService;
 
 @RestController
 @RequestMapping("/tour")
-public class TourController extends GenericController<TourDto, Integer, TourService> {
+public class TourController extends GenericController<TourDto, Long, TourService> {
 
     public TourController(TourService service) {
         super(service);

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/qrCode")
-public class QRCodeController extends GenericController<QRCodeDto, Integer, QRCodeService> {
+public class QRCodeController extends GenericController<QRCodeDto, Long, QRCodeService> {
 
     public QRCodeController(QRCodeService service) {
         super(service);

@@ -27,7 +27,7 @@ public class Comment {
     @Id
    // auto increment d'un valeur unique
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String description;
 

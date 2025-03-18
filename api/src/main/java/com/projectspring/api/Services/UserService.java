@@ -30,8 +30,8 @@ import jakarta.transaction.Transactional;
  * "AuthenticationManager"
  */
 @Service
-public class UserService extends GenericServiceImpl<User, Integer, UserDto, UserRepository, UserMapper>
-        implements UserDetailsService, GenericService<UserDto, Integer> {
+public class UserService extends GenericServiceImpl<User, Long, UserDto, UserRepository, UserMapper>
+        implements UserDetailsService, GenericService<UserDto, Long> {
 
     
 

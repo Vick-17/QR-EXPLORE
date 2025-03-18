@@ -27,14 +27,14 @@ public class UserDto implements Serializable {
                 '}';
     }
 
-    @JsonProperty("username")
     private String username;
     
-    @JsonProperty("email")
     private String email;
     
-    @JsonProperty("password")
     private String password;
+
+    private String lastName;
+    private String firstName;
 
     private Collection<Role> roles = new ArrayList<>();
 }

@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/comment")
-public class CommentController extends GenericController<CommentDto, Integer, CommentService> {
+public class CommentController extends GenericController<CommentDto, Long, CommentService> {
 
     public CommentController(CommentService service) {
         super(service);
@@ -25,7 +25,7 @@ public class CommentController extends GenericController<CommentDto, Integer, Co
 
     @PostMapping(value = "/postCommentByPlace", consumes = "multipart/form-data")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentDto postCommentByPlace(@ModelAttribute CommentDto comment, @RequestParam int placeId, int userId) {
+    public CommentDto postCommentByPlace(@ModelAttribute CommentDto comment, @RequestParam Long placeId, Long userId) {
         return service.postCommentByPlace(comment, placeId, userId);
     }
     

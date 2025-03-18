@@ -19,7 +19,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CommentDto implements Serializable {
 
-    private int id;
     private String description;
     private String imageName;
     

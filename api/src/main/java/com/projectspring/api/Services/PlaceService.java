@@ -10,7 +10,7 @@ import com.projectspring.api.Mappers.PlaceMapper;
 import com.projectspring.api.Repositories.PlaceRepository;
 
 @Service
-public class PlaceService extends GenericServiceImpl<Place, Integer, PlaceDto, PlaceRepository, PlaceMapper> implements GenericService<PlaceDto, Integer> {
+public class PlaceService extends GenericServiceImpl<Place, Long, PlaceDto, PlaceRepository, PlaceMapper> implements GenericService<PlaceDto, Long> {
 
     public PlaceService(PlaceRepository repository, PlaceMapper mapper) {
         super(repository, mapper);

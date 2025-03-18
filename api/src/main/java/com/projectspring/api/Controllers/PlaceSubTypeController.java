@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/placeSubType")
-public class PlaceSubTypeController extends GenericController<PlaceSubTypeDto, Integer, PlaceSubTypeService> {
+public class PlaceSubTypeController extends GenericController<PlaceSubTypeDto, Long, PlaceSubTypeService> {
 
     public PlaceSubTypeController(PlaceSubTypeService service) {
         super(service);

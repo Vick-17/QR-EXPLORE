@@ -27,7 +27,7 @@ import com.projectspring.api.Services.Filestorage.FileStorageService;
 import java.nio.file.Path;
 
 @Service
-public class CommentService extends GenericServiceImpl<Comment, Integer, CommentDto, CommentRepository, CommentMapper> implements GenericService<CommentDto, Integer> {
+public class CommentService extends GenericServiceImpl<Comment, Long, CommentDto, CommentRepository, CommentMapper> implements GenericService<CommentDto, Long> {
 
     public CommentService(CommentRepository repository, CommentMapper mapper) {
         super(repository, mapper);
@@ -50,7 +50,7 @@ public class CommentService extends GenericServiceImpl<Comment, Integer, Comment
     @Autowired
     private FileStorageService fileStorageService;
 
-    public CommentDto postCommentByPlace(CommentDto comment, int placeId, int userId) {
+    public CommentDto postCommentByPlace(CommentDto comment, Long placeId, Long userId) {
         try {
             // Vérifie que le lieu existe
             Place place = placeRepository.findById(placeId)
