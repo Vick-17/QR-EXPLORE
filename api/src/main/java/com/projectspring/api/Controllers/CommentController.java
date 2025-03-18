@@ -1,18 +1,21 @@
 package com.projectspring.api.Controllers;
 
 import com.projectspring.api.Dto.CommentDto;
+import com.projectspring.api.Entities.Comment;
 import com.projectspring.api.Generic.GenericController;
 import com.projectspring.api.Services.CommentService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 
 
@@ -34,6 +37,11 @@ public class CommentController extends GenericController<CommentDto, Long, Comme
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteComment(@RequestParam Long commentId) {
         service.deleteComment(commentId);
+    }
+
+    @GetMapping(value = "/getCommentsByPlace")
+    public List<Comment> getCommentsByPlace(@RequestParam Long placeId) {
+        return service.getCommentsByPlace(placeId);
     }
     
 }

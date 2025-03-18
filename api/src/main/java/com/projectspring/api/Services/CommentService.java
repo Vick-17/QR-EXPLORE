@@ -26,6 +26,7 @@ import com.projectspring.api.Repositories.UserRepository;
 import com.projectspring.api.Services.Filestorage.FileStorageService;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -157,4 +158,21 @@ public class CommentService extends GenericServiceImpl<Comment, Long, CommentDto
         // Suppression du commentaire
         repository.deleteById(commentId);
     }
+
+    /**
+     * Récupère tous les commentaires associés à un lieu spécifique.
+     *
+     * @param placeId L'ID du lieu dont on souhaite obtenir les commentaires.
+     * @return Une liste de commentaires associés au lieu.
+     * @throws ResponseStatusException Si le lieu n'existe pas.
+     */
+    public List<Comment> getCommentsByPlace(Long placeId) {
+        // Vérifier si le lieu existe avant de récupérer les commentaires
+        if (!placeRepository.existsById(placeId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found");
+        }
+
+        return repository.findByPlaceId(placeId);
+    }
+
 }
