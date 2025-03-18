@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,10 @@ import com.projectspring.api.Repositories.PlaceRepository;
 import com.projectspring.api.Repositories.UserRepository;
 import com.projectspring.api.Services.Filestorage.FileStorageService;
 
+import jakarta.transaction.Transactional;
+
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
@@ -127,7 +131,8 @@ public class CommentService extends GenericServiceImpl<Comment, Long, CommentDto
      * - Un modérateur (ROLE_MODO).
      *
      * @param commentId L'ID du commentaire à supprimer.
-     * @throws ResponseStatusException Si le commentaire n'existe pas (404) ou si l'utilisateur
+     * @throws ResponseStatusException Si le commentaire n'existe pas (404) ou si
+     *                                 l'utilisateur
      *                                 n'est ni l'auteur ni un modérateur (403).
      */
     public void deleteComment(Long commentId) {
@@ -189,6 +194,65 @@ public class CommentService extends GenericServiceImpl<Comment, Long, CommentDto
         }
 
         return repository.findByUserId(userId);
+    }
+
+    public CommentDto updateComment(Long commentId, CommentDto comment) {
+        // Récupération de l'utilisateur authentifié
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+
+        if (principal instanceof UserDetails userDetails) {
+            username = userDetails.getUsername(); // Si l'utilisateur est un UserDetails, on récupère son username
+        } else {
+            username = principal.toString(); // Sinon, on utilise la chaîne brute du principal
+        }
+
+        // Vérification de l'existence de l'utilisateur
+        User user = Optional.ofNullable(userRepository.findByUsername(username))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        // Récupération du commentaire existant
+        Comment existingComment = repository.findById(commentId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found"));
+
+        // Vérification que le commentaire appartient bien à l'utilisateur connecté
+        if (!existingComment.getUser().equals(user)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not authorized to update this comment");
+        }
+
+        // Gestion sécurisée de l'image
+        MultipartFile picture = comment.getPicture();
+        if (picture != null && !picture.isEmpty()) {
+            String fileExtension = fileStorageService.mimeTypeToExtension(picture.getContentType());
+            if (fileExtension == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid file type");
+            }
+
+            String storageHash = fileStorageService.getStorageHash(picture).orElseThrow(
+                    () -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                            "Failed to generate file hash"));
+            Path saveLocation = fileStorageService.getRootLocation().resolve(storageHash + fileExtension);
+
+            try {
+                Files.deleteIfExists(saveLocation);
+                Files.copy(picture.getInputStream(), saveLocation, StandardCopyOption.REPLACE_EXISTING);
+                existingComment.setImageName(storageHash + fileExtension); // Met à jour l'image du commentaire existant
+            } catch (IOException e) {
+                logger.error("Error saving image", e);
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error saving image");
+            }
+        }
+
+        // Mise à jour des informations du commentaire existant
+        existingComment.setDescription(comment.getDescription());
+
+        // Sauvegarde de l'entité Comment mise à jour (pas un DTO)
+        repository.save(existingComment); // Met à jour directement l'entité dans la base de données
+
+        // Convertir l'entité mise à jour en DTO pour la réponse
+        CommentDto updatedCommentDto = mapper.toDto(existingComment);
+
+        return updatedCommentDto;
     }
 
 }
