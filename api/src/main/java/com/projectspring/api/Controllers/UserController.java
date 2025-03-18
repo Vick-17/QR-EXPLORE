@@ -12,7 +12,7 @@ import com.projectspring.api.Services.UserService;
 
 @RestController
 @RequestMapping("/users")
-public class UserController extends GenericController<UserDto, Integer, UserService> {
+public class UserController extends GenericController<UserDto, Long, UserService> {
     public UserController(UserService service) {
         super(service);
     }

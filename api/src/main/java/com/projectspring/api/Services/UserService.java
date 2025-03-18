@@ -3,6 +3,7 @@ package com.projectspring.api.Services;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.projectspring.api.Entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,9 @@ import com.projectspring.api.Dto.UserDto;
 import com.projectspring.api.Generic.GenericService;
 import com.projectspring.api.Generic.GenericServiceImpl;
 import com.projectspring.api.Mappers.UserMapper;
-import com.projectspring.api.Models.RoleEntities;
-import com.projectspring.api.Models.UserEntities;
-import com.projectspring.api.Repositories.RoleRepositories;
-import com.projectspring.api.Repositories.UserRepositories;
+import com.projectspring.api.Entities.Role;
+import com.projectspring.api.Repositories.RoleRepository;
+import com.projectspring.api.Repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -30,12 +30,12 @@ import jakarta.transaction.Transactional;
  * "AuthenticationManager"
  */
 @Service
-public class UserService extends GenericServiceImpl<UserEntities, Integer, UserDto, UserRepositories, UserMapper>
-        implements UserDetailsService, GenericService<UserDto, Integer> {
+public class UserService extends GenericServiceImpl<User, Long, UserDto, UserRepository, UserMapper>
+        implements UserDetailsService, GenericService<UserDto, Long> {
 
     
 
-    public UserService(UserRepositories repository, UserMapper mapper) {
+    public UserService(UserRepository repository, UserMapper mapper) {
         super(repository, mapper);
     }
 
@@ -45,10 +45,10 @@ public class UserService extends GenericServiceImpl<UserEntities, Integer, UserD
     private static final String USER_FOUND_MESSAGE = "L'utilisateur avec le nom %s existe en base de données.";
 
     @Autowired
-    private UserRepositories userRepositories;
+    private UserRepository userRepositories;
 
     @Autowired
-    private RoleRepositories roleRepositories;
+    private RoleRepository roleRepositories;
 
     private Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -60,7 +60,7 @@ public class UserService extends GenericServiceImpl<UserEntities, Integer, UserD
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // ATTENTION -> objet de la classe "models.User"
-        UserEntities user = userRepositories.findByUsername(username);
+        User user = userRepositories.findByUsername(username);
         if (user == null) {
             // pas d'utilisateur, on renvoie une exception
             String message = String.format(USER_NOT_FOUND_MESSAGE, username);
@@ -87,16 +87,16 @@ public class UserService extends GenericServiceImpl<UserEntities, Integer, UserD
     }
 
     public UserDto createUser(UserDto users) {
-        UserEntities existingUser = repository.findByUsername(users.getUsername());
+        User existingUser = repository.findByUsername(users.getUsername());
         if (existingUser != null && existingUser.getUsername().equals(users.getUsername())) {
             throw new RuntimeException("L'adresse ou le nom d'utilisateur e-mail est déjà utilisée.");
         }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String passwordEncode = bCryptPasswordEncoder.encode(users.getPassword());
         users.setPassword(passwordEncode);
-        RoleEntities userRole = roleRepositories.findByName("ROLE_USER");
+        Role userRole = roleRepositories.findByName("ROLE_USER");
         if (userRole == null) {
-            userRole = new RoleEntities();
+            userRole = new Role();
             userRole.setName("ROLE_USER");
             roleRepositories.save(userRole);
         }

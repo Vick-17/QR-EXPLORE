@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.projectspring.api.Models.RoleEntities;
+import com.projectspring.api.Entities.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,14 +27,14 @@ public class UserDto implements Serializable {
                 '}';
     }
 
-    @JsonProperty("username")
     private String username;
     
-    @JsonProperty("email")
     private String email;
     
-    @JsonProperty("password")
     private String password;
 
-    private Collection<RoleEntities> roles = new ArrayList<>();
+    private String lastName;
+    private String firstName;
+
+    private Collection<Role> roles = new ArrayList<>();
 }

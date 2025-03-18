@@ -1,4 +1,4 @@
-package com.projectspring.api.Models;
+package com.projectspring.api.Entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,11 +21,14 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity
 @Table(name = "users")
-public class UserEntities {
+public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  private Long id;
+
+  private String lastName;
+  private String firstName;
 
   @Column(name = "username")
   private String username;
@@ -36,8 +39,13 @@ public class UserEntities {
   @Column(name = "password")
   private String password;
 
+
   @ManyToMany
   @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "id_role"), inverseJoinColumns = @JoinColumn(name = "id_user"))
-  private Collection<RoleEntities> roles = new ArrayList<>(); // ⚠️ Évite le NullPointerException
+  private Collection<Role> roles = new ArrayList<>(); // ⚠️ Évite le NullPointerException
+
+  @ManyToMany
+  @JoinTable(name = "recording", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_place"))
+  private Collection<Place> recording = new ArrayList<>();
 
 }
