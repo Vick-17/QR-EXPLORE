@@ -43,5 +43,10 @@ public class CommentController extends GenericController<CommentDto, Long, Comme
     public List<Comment> getCommentsByPlace(@RequestParam Long placeId) {
         return service.getCommentsByPlace(placeId);
     }
+
+    @GetMapping(value = "/getCommentsByUser")
+    public List<Comment> getCommentsByUser(@RequestParam Long userId) {
+        return service.getCommentsByUser(userId);
+    }
     
 }

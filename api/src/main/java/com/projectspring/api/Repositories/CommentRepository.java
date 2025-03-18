@@ -9,5 +9,7 @@ import com.projectspring.api.Entities.Comment;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findByPlaceId(Long placeId);
+
+    List<Comment> findByUserId(Long userId);
      
 }

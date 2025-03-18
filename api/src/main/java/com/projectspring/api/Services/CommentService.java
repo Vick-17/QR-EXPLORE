@@ -175,4 +175,20 @@ public class CommentService extends GenericServiceImpl<Comment, Long, CommentDto
         return repository.findByPlaceId(placeId);
     }
 
+    /**
+     * Récupère tous les commentaires associés à un lieu spécifique.
+     *
+     * @param placeId L'ID du lieu dont on souhaite obtenir les commentaires.
+     * @return Une liste de commentaires associés au lieu.
+     * @throws ResponseStatusException Si le lieu n'existe pas.
+     */
+    public List<Comment> getCommentsByUser(Long userId) {
+        // Vérifier si l'utilisateur existe avant de récupérer les commentaires
+        if (!userRepository.existsById(userId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+
+        return repository.findByUserId(userId);
+    }
+
 }
