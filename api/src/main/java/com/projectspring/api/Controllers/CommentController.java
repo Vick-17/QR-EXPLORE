@@ -6,6 +6,7 @@ import com.projectspring.api.Services.CommentService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +26,14 @@ public class CommentController extends GenericController<CommentDto, Long, Comme
 
     @PostMapping(value = "/postCommentByPlace", consumes = "multipart/form-data")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentDto postCommentByPlace(@ModelAttribute CommentDto comment, @RequestParam Long placeId, Long userId) {
-        return service.postCommentByPlace(comment, placeId, userId);
+    public CommentDto postCommentByPlace(@ModelAttribute CommentDto comment, @RequestParam Long placeId) {
+        return service.postCommentByPlace(comment, placeId);
+    }
+
+    @DeleteMapping(value = "/deleteComment")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteComment(@RequestParam Long commentId) {
+        service.deleteComment(commentId);
     }
     
 }
