@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -44,5 +46,7 @@ public class Place {
     @OneToMany(mappedBy = "place")
     private List<Comment> comments;
 
-
+    @ManyToOne
+    @JoinColumn(name = "place_type_id")
+    private PlaceType placeType;
 }

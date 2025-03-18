@@ -27,4 +27,7 @@ public class PlaceType {
 
     @OneToMany(mappedBy = "placeType")
     private List<PlaceSubType> subTypes;
+
+    @OneToMany(mappedBy = "placeType")
+    private List<Place> places;
 }
