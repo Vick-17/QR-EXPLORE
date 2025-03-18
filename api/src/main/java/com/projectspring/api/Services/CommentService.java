@@ -53,9 +53,23 @@ public class CommentService extends GenericServiceImpl<Comment, Long, CommentDto
     @Autowired
     private FileStorageService fileStorageService;
 
+    /**
+     * Ajoute un commentaire à un lieu en associant automatiquement l'utilisateur
+     * authentifié.
+     * Si une image est fournie, elle est stockée de manière sécurisée avec un nom
+     * unique basé sur un hash.
+     *
+     * @param comment Les données du commentaire à enregistrer.
+     * @param placeId L'ID du lieu auquel le commentaire est rattaché.
+     * @return Le commentaire enregistré sous forme de DTO.
+     * @throws ResponseStatusException Si l'utilisateur ou le lieu n'existent pas
+     *                                 (404),
+     *                                 ou en cas d'erreur de sauvegarde de l'image
+     *                                 (500).
+     */
     public CommentDto postCommentByPlace(CommentDto comment, Long placeId) {
         try {
-            // Récupérer l'utilisateur connecté depuis le JWT
+            // Récupération de l'utilisateur connecté depuis le contexte de sécurité
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String username;
 
@@ -65,36 +79,35 @@ public class CommentService extends GenericServiceImpl<Comment, Long, CommentDto
                 username = principal.toString();
             }
 
-            // Vérifie que l'utilisateur existe bien
-            Optional<User> optionalUser = Optional.ofNullable(userRepository.findByUsername(username));
-            User user = optionalUser
+            // Vérification de l'existence de l'utilisateur
+            User user = Optional.ofNullable(userRepository.findByUsername(username))
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-            // Vérifie que le lieu existe
+            // Vérification de l'existence du lieu
             Place place = placeRepository.findById(placeId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found"));
 
-            // Gestion de l'image
+            // Gestion de l'image du commentaire
             MultipartFile picture = comment.getPicture();
             if (picture != null && !picture.isEmpty()) {
-                // Hash du fichier pour éviter les doublons et garantir un stockage sécurisé
+                // Génération d'un nom unique pour éviter les conflits
                 String storageHash = fileStorageService.getStorageHash(picture).get();
                 Path rootLocation = fileStorageService.getRootLocation();
                 String fileExtension = fileStorageService.mimeTypeToExtension(picture.getContentType());
                 storageHash += fileExtension;
                 Path saveLocation = rootLocation.resolve(storageHash);
 
-                // Supprimer l'ancienne image si besoin
+                // Suppression de l'image existante si nécessaire
                 Files.deleteIfExists(saveLocation);
 
-                // Sauvegarde sécurisée du fichier
+                // Sauvegarde du fichier
                 Files.copy(picture.getInputStream(), saveLocation);
 
-                // Associer l'image au commentaire
+                // Enregistrement du nom de l'image dans le commentaire
                 comment.setImageName(storageHash);
             }
 
-            // Assigner l'utilisateur et le lieu au commentaire
+            // Association du commentaire avec le lieu et l'utilisateur
             comment.setPlace(place);
             comment.setUser(user);
 
