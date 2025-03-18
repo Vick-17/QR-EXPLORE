@@ -1,6 +1,5 @@
 package com.projectspring.api.Services;
 
-
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -30,7 +29,8 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 @Service
-public class CommentService extends GenericServiceImpl<Comment, Long, CommentDto, CommentRepository, CommentMapper> implements GenericService<CommentDto, Long> {
+public class CommentService extends GenericServiceImpl<Comment, Long, CommentDto, CommentRepository, CommentMapper>
+        implements GenericService<CommentDto, Long> {
 
     public CommentService(CommentRepository repository, CommentMapper mapper) {
         super(repository, mapper);
@@ -53,82 +53,95 @@ public class CommentService extends GenericServiceImpl<Comment, Long, CommentDto
     @Autowired
     private FileStorageService fileStorageService;
 
-public CommentDto postCommentByPlace(CommentDto comment, Long placeId) {
-    try {
-        // Récupérer l'utilisateur connecté depuis le JWT
+    public CommentDto postCommentByPlace(CommentDto comment, Long placeId) {
+        try {
+            // Récupérer l'utilisateur connecté depuis le JWT
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username;
+
+            if (principal instanceof UserDetails userDetails) {
+                username = userDetails.getUsername();
+            } else {
+                username = principal.toString();
+            }
+
+            // Vérifie que l'utilisateur existe bien
+            Optional<User> optionalUser = Optional.ofNullable(userRepository.findByUsername(username));
+            User user = optionalUser
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+            // Vérifie que le lieu existe
+            Place place = placeRepository.findById(placeId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found"));
+
+            // Gestion de l'image
+            MultipartFile picture = comment.getPicture();
+            if (picture != null && !picture.isEmpty()) {
+                // Hash du fichier pour éviter les doublons et garantir un stockage sécurisé
+                String storageHash = fileStorageService.getStorageHash(picture).get();
+                Path rootLocation = fileStorageService.getRootLocation();
+                String fileExtension = fileStorageService.mimeTypeToExtension(picture.getContentType());
+                storageHash += fileExtension;
+                Path saveLocation = rootLocation.resolve(storageHash);
+
+                // Supprimer l'ancienne image si besoin
+                Files.deleteIfExists(saveLocation);
+
+                // Sauvegarde sécurisée du fichier
+                Files.copy(picture.getInputStream(), saveLocation);
+
+                // Associer l'image au commentaire
+                comment.setImageName(storageHash);
+            }
+
+            // Assigner l'utilisateur et le lieu au commentaire
+            comment.setPlace(place);
+            comment.setUser(user);
+
+            return saveOrUpdate(comment);
+
+        } catch (IOException e) {
+            logger.error("Erreur lors de la sauvegarde de l'image", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Erreur lors de la sauvegarde de l'image");
+        }
+    }
+
+    /**
+     * Supprime un commentaire si l'utilisateur authentifié est soit :
+     * - Le créateur du commentaire.
+     * - Un modérateur (ROLE_MODO).
+     *
+     * @param commentId L'ID du commentaire à supprimer.
+     * @throws ResponseStatusException Si le commentaire n'existe pas (404) ou si l'utilisateur
+     *                                 n'est ni l'auteur ni un modérateur (403).
+     */
+    public void deleteComment(Long commentId) {
+        // Recherche du commentaire dans la base de données
+        Comment comment = repository.findById(commentId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found"));
+
+        // Récupération de l'utilisateur authentifié
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
 
         if (principal instanceof UserDetails userDetails) {
-            username = userDetails.getUsername();
+            username = userDetails.getUsername(); // Si l'utilisateur est un UserDetails, on récupère son username
         } else {
-            username = principal.toString();
+            username = principal.toString(); // Sinon, on utilise la chaîne brute du principal
         }
 
-        // Vérifie que l'utilisateur existe bien
-        Optional<User> optionalUser = Optional.ofNullable(userRepository.findByUsername(username));
-        User user = optionalUser.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        // Vérification des permissions :
+        boolean isOwner = comment.getUser().getUsername().equals(username); // L'utilisateur est-il le créateur ?
+        boolean isModerator = comment.getUser().getRoles().stream()
+                .anyMatch(role -> role.getName().equals("ROLE_MODO")); // A-t-il le rôle de modérateur ?
 
-        // Vérifie que le lieu existe
-        Place place = placeRepository.findById(placeId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found"));
-
-        // Gestion de l'image
-        MultipartFile picture = comment.getPicture();
-        if (picture != null && !picture.isEmpty()) {
-            // Hash du fichier pour éviter les doublons et garantir un stockage sécurisé
-            String storageHash = fileStorageService.getStorageHash(picture).get();
-            Path rootLocation = fileStorageService.getRootLocation();
-            String fileExtension = fileStorageService.mimeTypeToExtension(picture.getContentType());
-            storageHash += fileExtension;
-            Path saveLocation = rootLocation.resolve(storageHash);
-
-            // Supprimer l'ancienne image si besoin
-            Files.deleteIfExists(saveLocation);
-
-            // Sauvegarde sécurisée du fichier
-            Files.copy(picture.getInputStream(), saveLocation);
-
-            // Associer l'image au commentaire
-            comment.setImageName(storageHash);
+        // Si l'utilisateur n'est ni propriétaire ni modérateur, refus de suppression
+        if (!isOwner && !isModerator) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to delete this comment");
         }
 
-        // Assigner l'utilisateur et le lieu au commentaire
-        comment.setPlace(place);
-        comment.setUser(user);
-
-        return saveOrUpdate(comment);
-
-    } catch (IOException e) {
-        logger.error("Erreur lors de la sauvegarde de l'image", e);
-        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erreur lors de la sauvegarde de l'image");
+        // Suppression du commentaire
+        repository.deleteById(commentId);
     }
-}
-
-
-
-    public void deleteComment(Long commentId) {
-    Comment comment = repository.findById(commentId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found"));
-
-    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    String username;
-
-    if (principal instanceof UserDetails userDetails) {
-        username = userDetails.getUsername();
-    } else {
-        username = principal.toString();
-    }
-
-    // Vérification des permissions
-    boolean isOwner = comment.getUser().getUsername().equals(username);
-    boolean isModerator = comment.getUser().getRoles().stream().anyMatch(role -> role.getName().equals("ROLE_MODO"));
-
-    if (!isOwner && !isModerator) {
-        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to delete this comment");
-    }
-
-    repository.deleteById(commentId);
-}
-    
 }
