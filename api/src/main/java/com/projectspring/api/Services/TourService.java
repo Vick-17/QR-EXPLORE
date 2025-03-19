@@ -51,12 +51,17 @@ public class TourService extends GenericServiceImpl<Tour, Long, TourDto, TourRep
         // Création du Tour
         Tour newTour = new Tour();
         newTour.setName(tour.getName());
+
+        // Si isVisible est null, on définit une valeur par défaut à false
+        newTour.setIsVisible(tour.getIsVisible() != null ? tour.getIsVisible() : false);
+
         newTour.setPlaces(places);
 
         // Sauvegarde en base
         newTour = repository.save(newTour);
 
-        return new TourDto(newTour.getName(), newTour.getPlaces().stream().map(Place::getId).toList());
+        return new TourDto(newTour.getName(), newTour.getIsVisible(),
+                newTour.getPlaces().stream().map(Place::getId).toList());
     }
 
     // Modifie un Tour existant en gardant l'ordre des lieux envoyés
@@ -88,11 +93,12 @@ public class TourService extends GenericServiceImpl<Tour, Long, TourDto, TourRep
                     .toList()); // Convertir en ArrayList pour la rendre modifiable
 
             existingTour.setPlaces(orderedPlaces);
+            existingTour.setIsVisible(Boolean.TRUE.equals(tourDto.getIsVisible()));
         }
 
         existingTour = repository.save(existingTour);
 
-        return new TourDto(existingTour.getName(), existingTour.getPlaces().stream().map(Place::getId).toList());
+        return new TourDto(existingTour.getName(), existingTour.getIsVisible(), existingTour.getPlaces().stream().map(Place::getId).toList());
     }
 
     // Récupère les tour par Place

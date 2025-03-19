@@ -19,5 +19,7 @@ public class TourDto extends BaseDto implements Serializable {
     
     private String name;
 
+    private Boolean isVisible;
+
     private List<Long> placeIds;
 }
