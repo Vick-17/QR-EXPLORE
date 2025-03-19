@@ -6,7 +6,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+
 
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -25,6 +28,11 @@ public class Tour {
 
     private String name;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+        name = "tour_places", 
+        joinColumns = @JoinColumn(name = "tour_id"), 
+        inverseJoinColumns = @JoinColumn(name = "place_id")
+    )
     private List<Place> places;
 }
