@@ -2,6 +2,7 @@ package com.projectspring.api.Controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projectspring.api.Dto.TourDto;
+import com.projectspring.api.Entities.Tour;
 import com.projectspring.api.Generic.GenericController;
 import com.projectspring.api.Services.TourService;
 
@@ -38,6 +40,12 @@ public class TourController extends GenericController<TourDto, Long, TourService
 
         TourDto updatedTour = service.updateTour(tourId, tourDto, tourDto.getPlaceIds());
         return ResponseEntity.ok(updatedTour);
+    }
+
+    @GetMapping("/getTour/{placeId}")
+    public ResponseEntity<Tour> getTour(@PathVariable Long placeId) {
+        Tour tour = service.getTourByPLaceId(placeId);
+        return ResponseEntity.ok(tour);
     }
 
 }

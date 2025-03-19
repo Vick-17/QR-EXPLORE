@@ -95,4 +95,9 @@ public class TourService extends GenericServiceImpl<Tour, Long, TourDto, TourRep
         return new TourDto(existingTour.getName(), existingTour.getPlaces().stream().map(Place::getId).toList());
     }
 
+    // Récupère les tour par Place
+    public Tour getTourByPLaceId(Long placeId) {
+        return repository.findByPlacesId(placeId);
+    }
+
 }
