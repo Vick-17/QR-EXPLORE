@@ -15,9 +15,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class QRCodeDto implements Serializable {
 
-    private String qrName;
-
-    private String imageName;
-    
     private Place place;
 }
