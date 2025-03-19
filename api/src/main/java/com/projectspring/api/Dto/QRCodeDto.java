@@ -3,6 +3,7 @@ package com.projectspring.api.Dto;
 import java.io.Serializable;
 
 import com.projectspring.api.Entities.Place;
+import com.projectspring.api.Generic.BaseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class QRCodeDto implements Serializable {
+public class QRCodeDto extends BaseDto implements Serializable {
 
     private String qrName;
 

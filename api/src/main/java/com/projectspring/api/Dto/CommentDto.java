@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projectspring.api.Entities.Place;
 import com.projectspring.api.Entities.User;
+import com.projectspring.api.Generic.BaseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDto implements Serializable {
+public class CommentDto extends BaseDto implements Serializable {
 
     private String description;
     private String imageName;

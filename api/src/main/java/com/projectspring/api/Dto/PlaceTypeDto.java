@@ -3,7 +3,9 @@ package com.projectspring.api.Dto;
 import java.io.Serializable;
 import java.util.List;
 
-public class PlaceTypeDto implements Serializable {
+import com.projectspring.api.Generic.BaseDto;
+
+public class PlaceTypeDto extends BaseDto implements Serializable {
 
     private String name;
 
