@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
+import { post } from "../service/BackendService";
 
 import "../Style/pages/SignUp.css"
 
@@ -10,27 +12,35 @@ const SignUp = () => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
-  const [passwordError, setPasswordError] = useState("");
+  // const [passwordError, setPasswordError] = useState("");
+
+  // const validatePassword = (password) => {
+  //   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[\w\d@$!%*?&]{12,}$/;
+  //   return regex.test(password);
+  // };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    setFormData({...formData, [e.target.name]: e.target.value});
+  }
 
-  const validatePassword = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[+-/\\@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
-    return regex.test(password);
-  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validatePassword(formData.password)) {
-      setPasswordError("Le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.");
-      return;
+    setLoading(true);
+    try {
+      // await post("/users", formData);
+      console.log(formData)
+      // window.location.href = "/auth";
+    } catch (e) {
+      console.error("Erreur lors de l'inscription", e);
+    } finally {
+      setLoading(false);
     }
-
-    setPasswordError("");
-    console.log("Formulaire soumis avec succès :", formData);
+    
+    
+    
   };
 
   return (
@@ -39,15 +49,15 @@ const SignUp = () => {
         <h2 className="text-center mb-4">Inscription</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label className="form-label">First Name</label>
+            <label className="form-label">Nom de fammille</label>
             <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleChange} required />
           </div>
           <div className="mb-3">
-            <label className="form-label">Last Name</label>
+            <label className="form-label">Prénom</label>
             <input type="text" className="form-control" name="lastName" value={formData.lastName} onChange={handleChange} required />
           </div>
           <div className="mb-3">
-            <label className="form-label">Username</label>
+            <label className="form-label">Pseudo</label>
             <input type="text" className="form-control" name="username" value={formData.username} onChange={handleChange} required />
           </div>
           <div className="mb-3">
@@ -55,11 +65,13 @@ const SignUp = () => {
             <input type="email" className="form-control" name="email" value={formData.email} onChange={handleChange} required />
           </div>
           <div className="mb-3">
-            <label className="form-label">Password</label>
+            <label className="form-label">Mot de passe</label>
             <input type="password" className="form-control" name="password" value={formData.password} onChange={handleChange} required />
-            {passwordError && <div className="text-danger">{passwordError}</div>}
+            {/* {passwordError && <div className="text-danger">{passwordError}</div>} */}
           </div>
-          <button type="submit" className="btn btn-success signup-btn">Sign Up</button>
+          <button type="submit" className="btn btn-success signup-btn">
+            {loading ? "Chargement..." : "S'inscrire"}
+          </button>
         </form>
       </div>
     </div>
