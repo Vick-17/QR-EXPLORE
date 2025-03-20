@@ -6,24 +6,31 @@ import { Link } from "react-router-dom";
 
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  })
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
-    // setError("");
+    e.preventDefault();
 
-    // try {
-    //   const response = await login({email, password});
-    //   if (response.succes) {
-    //     console.log("Connexion Reussie");
-    //   } else {
-    //     setError(response.message);
-    //   }
-    // } catch (err) {
-    //   setError("Une erreur est survenue : ", err);
-    // }
+    setIsLogin(true);
+    try {
+      await login(formData);
+      window.location.href = "/";
+    } catch (e) {
+      console.error("Erreur lors de la connexion", e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,15 +56,15 @@ function Auth() {
 
         {isLogin ? (
           <form onSubmit={handleSubmit}>
-              {error && <div className="alert alert-danger">{error}</div>}
               <div className="mb-3">
-                  <label className="form-label">Email</label>
+                  <label className="form-label">Pseudo</label>
                   <input
-                      type="email"
+                      type="text"
+                      name="username"
                       className="form-control"
-                      placeholder="Votre email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Votre pseudo"
+                      value={formData.username}
+                      onChange={handleChange}
                       required
                   />
               </div>
@@ -65,15 +72,16 @@ function Auth() {
                   <label className="form-label">Mot de passe</label>
                   <input
                       type="password"
+                      name="password"
                       className="form-control"
                       placeholder="Votre mot de passe"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={formData.password}
+                      onChange={handleChange}
                       required
                   />
               </div>
-              <button type="submit" className="btn btn-success login-btn">
-                  Se connecter
+              <button type="submit" className="btn btn-success login-btn" disabled={loading}>
+                  {loading ? "Chargement..." : "Se connecter"}
               </button>
           </form>
         ) : (
