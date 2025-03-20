@@ -1,12 +1,11 @@
-package com.projectspring.api.Mappers;
+package com.projectspring.api.mappers;
 
+import com.projectspring.api.dtos.CommentDto;
+import com.projectspring.api.entities.Comment;
+import com.projectspring.api.generic.GenericMapper;
 import org.mapstruct.Mapper;
 
-import com.projectspring.api.Dto.CommentDto;
-import com.projectspring.api.Entities.Comment;
-import com.projectspring.api.Generic.GenericMapper;
-
 @Mapper
-public interface CommentMapper extends GenericMapper<Comment, CommentDto> {
-    
+public interface CommentMapper extends GenericMapper<CommentDto, Comment> {
+
 }

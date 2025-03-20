@@ -1,4 +1,4 @@
-package com.projectspring.api.Security;
+package com.projectspring.api.security;
 
 import java.text.ParseException;
 import java.time.Instant;

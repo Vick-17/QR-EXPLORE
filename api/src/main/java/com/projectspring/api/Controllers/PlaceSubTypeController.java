@@ -1,18 +1,16 @@
-package com.projectspring.api.Controllers;
+package com.projectspring.api.controllers;
 
-import com.projectspring.api.Dto.PlaceSubTypeDto;
-import com.projectspring.api.Generic.GenericController;
-import com.projectspring.api.Services.PlaceSubTypeService;
+import com.projectspring.api.dtos.PlaceSubtypeDto;
+import com.projectspring.api.generic.GenericController;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.projectspring.api.services.PlaceSubtypeService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/placeSubType")
-public class PlaceSubTypeController extends GenericController<PlaceSubTypeDto, Long, PlaceSubTypeService> {
+@RequestMapping("/placeSubtypes")
+public class PlaceSubTypeController extends GenericController<PlaceSubtypeDto, PlaceSubtypeService> {
 
-    public PlaceSubTypeController(PlaceSubTypeService service) {
+    public PlaceSubTypeController(PlaceSubtypeService service) {
         super(service);
     }
-    
 }

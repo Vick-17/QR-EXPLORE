@@ -1,13 +1,7 @@
-package com.projectspring.api.Entities;
+package com.projectspring.api.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-
-import jakarta.persistence.Table;
+import com.projectspring.api.generic.BaseEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -17,18 +11,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity
 @Table(name = "qr_code")
-public class QRCode {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String qrName;
-
-    private String imageName;
-    
-    // A voir comment on génére le qrcode et comment ont le stock
-    // @Lob
-    // private byte[] qrFile;
+public class QRCode extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "place_id")

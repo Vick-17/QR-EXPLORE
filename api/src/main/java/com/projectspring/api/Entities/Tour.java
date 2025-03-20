@@ -1,18 +1,9 @@
-package com.projectspring.api.Entities;
+package com.projectspring.api.entities;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-
-
-import jakarta.persistence.Table;
+import com.projectspring.api.generic.BaseEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -21,22 +12,11 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @Entity
-@Table(name = "tour")
-public class Tour {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
+public class Tour extends BaseEntity {
 
     @Column(nullable = false)
-    private Boolean isVisible;
+    private String name;
 
-    @ManyToMany
-    @JoinTable(
-        name = "tour_places", 
-        joinColumns = @JoinColumn(name = "tour_id"), 
-        inverseJoinColumns = @JoinColumn(name = "place_id")
-    )
+    @OneToMany
     private List<Place> places;
 }

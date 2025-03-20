@@ -1,19 +1,7 @@
-package com.projectspring.api.Services;
+package com.projectspring.api.services;
 
-import org.springframework.stereotype.Service;
+import com.projectspring.api.dtos.PlaceDto;
+import com.projectspring.api.generic.GenericService;
 
-import com.projectspring.api.Dto.PlaceDto;
-import com.projectspring.api.Entities.Place;
-import com.projectspring.api.Generic.GenericService;
-import com.projectspring.api.Generic.GenericServiceImpl;
-import com.projectspring.api.Mappers.PlaceMapper;
-import com.projectspring.api.Repositories.PlaceRepository;
-
-@Service
-public class PlaceService extends GenericServiceImpl<Place, Long, PlaceDto, PlaceRepository, PlaceMapper> implements GenericService<PlaceDto, Long> {
-
-    public PlaceService(PlaceRepository repository, PlaceMapper mapper) {
-        super(repository, mapper);
-    }
-    
+public interface PlaceService extends GenericService<PlaceDto> {
 }

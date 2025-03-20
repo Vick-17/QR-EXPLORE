@@ -1,19 +1,7 @@
-package com.projectspring.api.Services;
+package com.projectspring.api.services;
 
-import org.springframework.stereotype.Service;
+import com.projectspring.api.dtos.QRCodeDto;
+import com.projectspring.api.generic.GenericService;
 
-import com.projectspring.api.Dto.QRCodeDto;
-import com.projectspring.api.Entities.QRCode;
-import com.projectspring.api.Generic.GenericService;
-import com.projectspring.api.Generic.GenericServiceImpl;
-import com.projectspring.api.Mappers.QRCodeMapper;
-import com.projectspring.api.Repositories.QRCodeRepository;
-
-@Service
-public class QRCodeService extends GenericServiceImpl<QRCode, Long, QRCodeDto, QRCodeRepository, QRCodeMapper> implements GenericService<QRCodeDto, Long> {
-
-    public QRCodeService(QRCodeRepository repository, QRCodeMapper mapper) {
-        super(repository, mapper);
-    }
-    
+public interface QRCodeService extends GenericService<QRCodeDto> {
 }

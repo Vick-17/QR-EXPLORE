@@ -1,14 +1,9 @@
-package com.projectspring.api.Entities;
+package com.projectspring.api.entities;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.projectspring.api.generic.BaseEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -18,15 +13,13 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity
 @Table(name = "place_type")
-public class PlaceType {
-     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class PlaceType extends BaseEntity {
 
+    @Column(nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "placeType")
-    private List<PlaceSubType> subTypes;
+    private List<PlaceSubtype> placeSubtypes;
 
     @OneToMany(mappedBy = "placeType")
     private List<Place> places;

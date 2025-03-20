@@ -1,12 +1,11 @@
-package com.projectspring.api.Mappers;
+package com.projectspring.api.mappers;
 
+import com.projectspring.api.dtos.TourDto;
+import com.projectspring.api.entities.Tour;
+import com.projectspring.api.generic.GenericMapper;
 import org.mapstruct.Mapper;
 
-import com.projectspring.api.Dto.TourDto;
-import com.projectspring.api.Entities.Tour;
-import com.projectspring.api.Generic.GenericMapper;
-
 @Mapper
-public interface TourMapper extends GenericMapper<Tour, TourDto> {
-    
+public interface TourMapper extends GenericMapper<TourDto, Tour> {
+
 }

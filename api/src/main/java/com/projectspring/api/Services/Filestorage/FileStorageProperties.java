@@ -1,4 +1,4 @@
-package com.projectspring.api.Services.Filestorage;
+package com.projectspring.api.services.Filestorage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

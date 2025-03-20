@@ -1,19 +1,12 @@
-package com.projectspring.api.Entities;
+package com.projectspring.api.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import com.projectspring.api.generic.BaseEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -22,23 +15,21 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @Entity
-@Table(name = "users")
-public class User {
+public class User extends BaseEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
+  @Column(nullable = false)
   private String lastName;
+
+  @Column(nullable = false)
   private String firstName;
 
-  @Column(name = "username")
+  @Column(nullable = false)
   private String username;
 
-  @Column(name = "email")
+  @Column(nullable = false)
   private String email;
 
-  @Column(name = "password")
+  @Column(nullable = false)
   private String password;
 
 
@@ -49,9 +40,12 @@ public class User {
   @ManyToMany
   @JoinTable(name = "recording", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_place"))
   private Set<Place> recording = new HashSet<>();
+<<<<<<< HEAD:api/src/main/java/com/projectspring/api/Entities/User.java
 
   @ManyToMany
   @JoinTable(name = "toLater", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_place"))
   private Set<Place> toLater = new HashSet<>();
+=======
+>>>>>>> origin/feat-CREATE-QRCODE:api/src/main/java/com/projectspring/api/entities/User.java
 
 }

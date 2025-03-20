@@ -1,12 +1,11 @@
-package com.projectspring.api.Mappers;
+package com.projectspring.api.mappers;
 
+import com.projectspring.api.dtos.PlaceDto;
+import com.projectspring.api.entities.Place;
+import com.projectspring.api.generic.GenericMapper;
 import org.mapstruct.Mapper;
 
-import com.projectspring.api.Dto.PlaceDto;
-import com.projectspring.api.Entities.Place;
-import com.projectspring.api.Generic.GenericMapper;
-
 @Mapper
-public interface PlaceMapper extends GenericMapper<Place, PlaceDto> {
-    
+public interface PlaceMapper extends GenericMapper<PlaceDto, Place> {
+
 }

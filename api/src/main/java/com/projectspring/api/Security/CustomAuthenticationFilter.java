@@ -1,4 +1,4 @@
-package com.projectspring.api.Security;
+package com.projectspring.api.security;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -32,11 +32,12 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private static final String BAD_CREDENTIAL_MESSAGE = "Echec de l'autentification pour l'utilisateur : %s";
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomAuthenticationFilter.class);
 
-    private AuthenticationManager authenticationManager;
+    private static final String BAD_CREDENTIAL_MESSAGE = "Échec de l'authentification pour l'utilisateur : {}";
 
-    private Logger logger = LoggerFactory.getLogger(CustomAuthenticationFilter.class);
+    private final AuthenticationManager authenticationManager;
+
 
     /**
      * Constructeur prenant automatique en paramètre le bean de "SecurityConfig"
@@ -72,7 +73,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             username = map.get("username");
             password = map.get("password");
 
-            logger.debug("Authentification pour l'utilisateur: {}", username);
+            LOGGER.debug("Authentification pour l'utilisateur: {}", username);
 
             // création d'un objet d'une classe héritant de "Authentication"
             // ici nous utilisons "UsernamePasswordAuthenticationToken" car la vérification
@@ -85,7 +86,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             // tentative d'authentification
             return authenticationManager.authenticate(userAuthentication);
         } catch (AuthenticationException e) {
-            logger.error(String.format(BAD_CREDENTIAL_MESSAGE, username), e);
+            LOGGER.error(BAD_CREDENTIAL_MESSAGE, username, e);
             throw e;
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -98,7 +99,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             try {
                 om.writeValue(response.getOutputStream(), error);
             } catch (Exception e2) {
-                logger.debug("Erreur lors de l'écriture de la requête réponse à l'authentification utilisateur.");
+                LOGGER.debug("Erreur lors de l'écriture de la requête réponse à l'authentification utilisateur.");
             }
 
             throw new RuntimeException(String
@@ -129,8 +130,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String accessToken = JwtUtil.createAccessToken(user.getUsername(), request.getRequestURL().toString(),
                 stringAuthorities);
 
-        logger.info(String.format("Création d'un token pour l'utilisateur : {}. Token : ", user.getUsername(),
-                accessToken));
+        LOGGER.info("Création d'un token pour l'utilisateur : {}. Token : {}", user.getUsername(),
+                accessToken);
         String refreshToken = JwtUtil.createRefreshToken(user.getUsername());
         // modification de l'en-tête de la requête de retour pour ajouter les JWT
         response.addHeader("access_token", accessToken);

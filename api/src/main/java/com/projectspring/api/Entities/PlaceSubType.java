@@ -1,13 +1,7 @@
-package com.projectspring.api.Entities;
+package com.projectspring.api.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
-import jakarta.persistence.Table;
+import com.projectspring.api.generic.BaseEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -16,12 +10,10 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @Entity
-@Table(name = "place_sub_type")
-public class PlaceSubType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "place_subtype")
+public class PlaceSubtype extends BaseEntity {
 
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne

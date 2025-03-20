@@ -1,17 +1,11 @@
-package com.projectspring.api.Entities;
+package com.projectspring.api.entities;
 
+import com.projectspring.api.generic.BaseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -20,15 +14,9 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @Entity
-@Table(name = "comment")
-public class Comment {
+public class Comment extends BaseEntity {
 
-    // clé primaire
-    @Id
-   // auto increment d'un valeur unique
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @Column(nullable = false)
     private String description;
 
     /*
@@ -37,9 +25,10 @@ public class Comment {
      sera pas inclus dans la réponse API JSON).
      */
     @JsonIgnore
-    @Transient // Cette annotaion indique que le champ ne sera pas persisté dans la base de données
+    @Transient // Cette annotation indique que le champ ne sera pas persisté dans la base de données
     private MultipartFile picture;
 
+    @Column(nullable = false)
     private String imageName;
     
     /*

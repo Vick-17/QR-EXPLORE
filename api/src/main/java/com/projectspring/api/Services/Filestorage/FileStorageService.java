@@ -1,4 +1,4 @@
-package com.projectspring.api.Services.Filestorage;
+package com.projectspring.api.services.Filestorage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,10 +30,8 @@ import org.springframework.core.io.UrlResource;
  * Classe service s'occupant du stockage de fichiers sur le disque.
  * 
  * Les classes "service" intègrent la logique métier (tout ne doit pas être dans
- * le controleur).
- * 
- * 
- * @param properties
+ * le contrôleur).
+ *
  */
 @Service
 public class FileStorageService {
@@ -44,7 +42,7 @@ public class FileStorageService {
      * Pour plus d'informations sur slf4j ->
      * https://www.baeldung.com/slf4j-with-log4j2-logback
      */
-    Logger logger = LoggerFactory.getLogger(FileStorageService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileStorageService.class);
 
     private final Path rootLocation;
 
@@ -68,7 +66,7 @@ public class FileStorageService {
             // utilisant la classe "Logger"
             // de slf4j veuillez vous référer à la ressource suivante :
             // https://examples.javacodegeeks.com/java-development/enterprise-java/slf4j/slf4j-format-string-example/
-            logger.info("Chemin de sauvegarde des fichiers {}", rootLocation.toAbsolutePath().toString());
+            LOGGER.info("Chemin de sauvegarde des fichiers {}", rootLocation.toAbsolutePath().toString());
         } catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
         }
@@ -198,7 +196,7 @@ public class FileStorageService {
                  // on retrouve une chaîne de caractères à partir d'un tableau d'octets
                  hashString = String.format("%032x", new BigInteger(1, hashBytes));
              } catch (NoSuchAlgorithmException | IOException e) {
-                 logger.error(e.getMessage());
+                 LOGGER.error(e.getMessage());
              }
          }
 

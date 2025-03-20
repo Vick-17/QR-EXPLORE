@@ -1,16 +1,16 @@
-package com.projectspring.api.Generic;
+package com.projectspring.api.generic;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
-public interface GenericService<E,I> {
-    Page<E> findAll(Pageable pageable);
+public interface GenericService<D extends BaseDto> {
+    Page<D> findAll(Pageable pageable);
 
-    Optional<E> findById(I id);
+    D saveOrUpdate(D user);
 
-    E saveOrUpdate(E entity);
+    Optional<D> findById(long id);
 
-    void deleteById(I id);
+    void deleteById(long id);
 }

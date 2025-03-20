@@ -1,4 +1,4 @@
-package com.projectspring.api.Security;
+package com.projectspring.api.security;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
-    private Logger logger = LoggerFactory.getLogger(CustomAuthorizationFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomAuthorizationFilter.class);
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -60,7 +60,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     // on enchaîne avec le prochain filtre
                     filterChain.doFilter(request, response);
                 } catch (Exception e) {
-                    logger.error(String.format("Erreur avec le JWT suivant : %s", token), e);
+                    LOGGER.error("Erreur avec le JWT suivant : {}", token, e);
                     response.setStatus(HttpStatus.FORBIDDEN.value());
 
                     // construction du message qui est renvoyé à l'utilisateur

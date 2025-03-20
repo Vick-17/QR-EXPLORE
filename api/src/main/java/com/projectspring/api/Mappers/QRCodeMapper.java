@@ -1,12 +1,11 @@
-package com.projectspring.api.Mappers;
+package com.projectspring.api.mappers;
 
+import com.projectspring.api.dtos.QRCodeDto;
+import com.projectspring.api.entities.QRCode;
+import com.projectspring.api.generic.GenericMapper;
 import org.mapstruct.Mapper;
 
-import com.projectspring.api.Dto.QRCodeDto;
-import com.projectspring.api.Entities.QRCode;
-import com.projectspring.api.Generic.GenericMapper;
-
 @Mapper
-public interface QRCodeMapper extends GenericMapper<QRCode, QRCodeDto> {
-    
+public interface QRCodeMapper extends GenericMapper<QRCodeDto, QRCode> {
+
 }

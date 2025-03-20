@@ -1,18 +1,16 @@
-package com.projectspring.api.Controllers;
+package com.projectspring.api.controllers;
 
-import com.projectspring.api.Dto.PlaceDto;
-import com.projectspring.api.Generic.GenericController;
-import com.projectspring.api.Services.PlaceService;
+import com.projectspring.api.dtos.PlaceDto;
+import com.projectspring.api.generic.GenericController;
+import com.projectspring.api.services.PlaceService;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/place")
-public class PlaceController extends GenericController<PlaceDto, Long, PlaceService> {
+@RequestMapping("/places")
+public class PlaceController extends GenericController<PlaceDto, PlaceService> {
 
     public PlaceController(PlaceService service) {
         super(service);
     }
-    
 }

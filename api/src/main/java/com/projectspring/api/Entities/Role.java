@@ -1,23 +1,16 @@
-package com.projectspring.api.Entities;
+package com.projectspring.api.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.projectspring.api.generic.BaseEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "roles")
-public class Role {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Accessors(chain = true)
+public class Role extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String name;

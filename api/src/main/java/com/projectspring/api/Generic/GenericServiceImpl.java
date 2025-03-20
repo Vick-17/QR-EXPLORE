@@ -1,20 +1,22 @@
-package com.projectspring.api.Generic;
+package com.projectspring.api.generic;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public abstract class GenericServiceImpl<E, I, D, R extends JpaRepository<E, I>, M extends GenericMapper<E, D>>
-        implements GenericService<D, I> {
-    protected R repository;
-    protected M mapper;
+@RequiredArgsConstructor
+public abstract class GenericServiceImpl<
+        E extends BaseEntity,
+        D extends BaseDto,
+        R extends JpaRepository<E,Long>,
+        M extends GenericMapper<D,E>>
+        implements GenericService<D> {
 
-    public GenericServiceImpl(R repository, M mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
+    protected final R repository;
+    protected final M mapper;
 
     @Override
     public Page<D> findAll(Pageable pageable) {
@@ -22,25 +24,27 @@ public abstract class GenericServiceImpl<E, I, D, R extends JpaRepository<E, I>,
     }
 
     @Override
-    public Optional<D> findById(I id) {
+    public D saveOrUpdate(D dto) {
+        return toDto(repository.saveAndFlush(toEntity(dto)));
+    }
+
+    @Override
+    public Optional<D> findById(long id) {
         return repository.findById(id).map(this::toDto);
     }
 
     @Override
-    public D saveOrUpdate(D dto) {
-        return toDto(repository.save(toEntity(dto)));
-    }
-
-    @Override
-    public void deleteById(I id) {
+    public void deleteById(long id) {
         repository.deleteById(id);
     }
 
-    E toEntity(D dto) {
-        return mapper.toEntity(dto);
-    }
 
     protected D toDto(E entity) {
         return mapper.toDto(entity);
     }
+
+    protected E toEntity(D dto) {
+        return mapper.toEntity(dto);
+    }
+
 }
