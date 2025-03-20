@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-import './Style/Header.css';
+import "../Style/components/Header.css"
 
 
 const Header = () => {

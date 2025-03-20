@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import "./Style/SignUp.css"
+import "../Style/pages/SignUp.css"
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -18,13 +18,12 @@ const SignUp = () => {
   };
 
   const validatePassword = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[+-/\\@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
     return regex.test(password);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     if (!validatePassword(formData.password)) {
       setPasswordError("Le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.");
       return;

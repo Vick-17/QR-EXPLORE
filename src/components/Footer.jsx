@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import "./Style/Footer.css"
+import "../Style/components/Footer.css"
 
 const Footer = () => {
   return (

@@ -28,7 +28,7 @@
 
 @font-face {
     font-family: 'Vanitha';
-    src: url("../font/Vanitha.ttf") format("truetype");
+    src: url("../../font/Vanitha.ttf") format("truetype");
     font-weight: bold;
     font-style: normal;
 }

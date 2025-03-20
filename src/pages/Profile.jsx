@@ -1,4 +1,4 @@
-import "./Profile.css";
+import "../Style/pages/Profile.css";
 import { Container, Card, Button } from "react-bootstrap";
 
 const Profile = () => {

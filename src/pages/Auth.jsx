@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./Style/Auth.css";
-import { login } from "./BackendService.js"
+import "../Style/pages/Auth.css"
+import { login } from "../service/BackendService.js"
 import { Link } from "react-router-dom";
 
 function Auth() {
