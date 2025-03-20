@@ -1,0 +1,46 @@
+.main-container {
+    position: relative;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    margin: 2.5rem 0rem;
+}
+
+.content-box {
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.title {
+    margin-bottom: 1rem !important;
+
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: 'Vanitha' !important;
+    color: #4F6F52;
+}
+
+@font-face {
+    font-family: 'Vanitha';
+    src: url("../font/Vanitha.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.description {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #3B3B3B;
+}
+
+.button {
+    margin-top: 20px;
+    color: #FFFFFF;
+    background-color: #4F6F52 !important;
+}

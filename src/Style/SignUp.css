@@ -1,0 +1,14 @@
+.signup-card {
+    width: 500rem;
+    height: 50%;
+    z-index: 50;
+    margin-top: 10rem;
+}
+
+.card {
+    width: 40rem;
+}
+
+.signup-btn {
+    width: 50%;
+}
