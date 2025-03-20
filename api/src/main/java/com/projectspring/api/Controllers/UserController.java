@@ -39,4 +39,16 @@ public class UserController extends GenericController<UserDto, Long, UserService
         return ResponseEntity.ok(updatedUser);
     }
 
+    @PostMapping("/toLater")
+    public ResponseEntity<UserDto> addPlacesToLater(@RequestBody List<Long> placeIds) {
+        UserDto updatedUser = service.addPlaceToLater(placeIds);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @DeleteMapping("/toLater/{placeId}")
+    public ResponseEntity<UserDto> removePlaceFromToLater(@PathVariable Long placeId) {
+        UserDto updatedUser = service.removeForLater(placeId);
+        return ResponseEntity.ok(updatedUser);
+    }
+
 }

@@ -47,4 +47,6 @@ public class UserDto extends BaseDto implements Serializable {
 
 
     private Collection<Role> roles = new ArrayList<>();
+
+    private Set<Place> toLater = new HashSet<>();
 }

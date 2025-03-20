@@ -158,4 +158,51 @@ public class UserService extends GenericServiceImpl<User, Long, UserDto, UserRep
                 user.getRecording().stream().map(Place::getId).collect(Collectors.toSet()));
     }
 
+    @Transactional
+    public UserDto addPlaceToLater(List<Long> placeIds) {
+        // Récupérer l'utilisateur authentifié
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = (principal instanceof UserDetails) ? ((UserDetails) principal).getUsername()
+                : principal.toString();
+
+        User user = Optional.ofNullable(repository.findByUsername(username))
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
+
+        // Récupérer les lieux sans créer de doublons
+        Set<Place> places = new HashSet<>(placeRepository.findAllById(placeIds));
+
+        if (places.isEmpty()) {
+            throw new IllegalArgumentException("Aucun lieu trouvé avec les IDs fournis");
+        }
+
+        // Ajouter les lieux aux favoris (évite les doublons grâce à Set)
+        user.getToLater().addAll(places);
+        repository.save(user);
+
+        // Retourner un DTO avec la liste des lieux mis à jour
+        return new UserDto(
+                user.getUsername(),
+                user.getEmail(),
+                user.getLastName(),
+                user.getFirstName(),
+                user.getRoles(),
+                user.getToLater().stream().map(Place::getId).collect(Collectors.toSet()));
+    }
+
+    @Transactional
+    public UserDto removeForLater(Long placeId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = Optional.ofNullable(repository.findByUsername(username))
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
+
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new IllegalArgumentException("Lieu introuvable"));
+
+        user.getToLater().remove(place);
+        repository.save(user);
+
+        return new UserDto(user.getUsername(), user.getEmail(), user.getLastName(), user.getFirstName(),
+                user.getRoles(),
+                user.getToLater().stream().map(Place::getId).collect(Collectors.toSet()));
+    }
 }

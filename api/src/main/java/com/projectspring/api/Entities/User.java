@@ -50,4 +50,8 @@ public class User {
   @JoinTable(name = "recording", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_place"))
   private Set<Place> recording = new HashSet<>();
 
+  @ManyToMany
+  @JoinTable(name = "toLater", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_place"))
+  private Set<Place> toLater = new HashSet<>();
+
 }
