@@ -1,6 +1,6 @@
 // import React from "react";
 import { Box, Button, Typography } from "@mui/material";
-import "./Style/HomePage.css"; // Import du fichier CSS
+import "../Style/pages/HomePage.css"; // Import du fichier CSS
 
 function Welcome() {
   return (
@@ -12,7 +12,7 @@ function Welcome() {
         <Typography variant="body1" className="description">
           Voici un petit texte qui décrit quelque chose d intéressant.
         </Typography>
-        <Button variant="contained" className="button">
+        <Button variant="contained" color="primary" className="button">
           Explore Now
         </Button>
       </Box>

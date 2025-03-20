@@ -2,9 +2,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Layout from './Layout';
-import HomePage from './HomePage';
-import Auth from './Auth';
-import SignUp from './SignUp';
+import HomePage from './pages/HomePage';
+import Auth from './pages/Auth';
+import SignUp from './pages/SignUp';
 
 import './Style/App.css';
 
