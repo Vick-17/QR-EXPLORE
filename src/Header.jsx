@@ -1,6 +1,7 @@
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import { IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Link } from 'react-router-dom';
 
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
@@ -13,21 +14,22 @@ const Header = () => {
         <nav className="navbar navbar-expand-lg ">
             <div className="container-fluid">
                 <div className='iconButton items'>
-                    <a className="navbar-brand" href="#">
+                    <Link to="/" className='navbar-brand'>
                         <IconButton color="white" className='IconButton'>
                             <QrCodeIcon color="white" className='QrCodeIcon'/>
                         </IconButton>
-                    </a>
+                    </Link>
                 </div>
                 <div className="collapse navbar-collapse items-button" id="navbarNavAltMarkup">
                     <div className="navbar-nav items">
-                        <a className="nav-link active items" aria-current="page" href="#">Home</a>
+                        <Link to="/" className='nav-link active items'>Home</Link>
+                        {/* <a className="nav-link active items" aria-current="page" href="#">Home</a> */}
                     </div>
                     <div className="navbar-nav items">
                         <a className="nav-link active items" href="#">About</a>
                     </div>
 
-                    <div className="dropdown-button">
+                    <div className="dropdown">
                         <button className=" dropdown-toggle items dropdown-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Dropdown button
                         </button>
@@ -39,11 +41,11 @@ const Header = () => {
                     </div>
                 </div>
                 <div className='iconButton'>
-                    <a className="" href="#">
+                    <Link to="/auth" className='navbar-brand'>
                         <IconButton color="white" className='IconButton'>
                             <AccountCircleIcon color="white" className='AccountIcon' />
                         </IconButton>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </nav>

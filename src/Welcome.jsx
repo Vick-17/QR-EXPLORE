@@ -1,8 +1,8 @@
 // import React from "react";
 import { Box, Button, Typography } from "@mui/material";
-import "./Style/MainContent.css"; // Import du fichier CSS
+import "./Style/HomePage.css"; // Import du fichier CSS
 
-function MainContent() {
+function Welcome() {
   return (
     <Box className="main-container">
       <Box className="content-box">
@@ -21,4 +21,4 @@ function MainContent() {
   );
 }
 
-export default MainContent;
+export default Welcome;

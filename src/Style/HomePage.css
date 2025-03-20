@@ -23,6 +23,7 @@
     font-size: 3rem;
     font-weight: bold;
     font-family: 'Vanitha' !important;
+    color: #4F6F52;
 }
 
 @font-face {
@@ -35,8 +36,11 @@
 .description {
     margin-top: 10px;
     font-size: 1.2rem;
+    color: #3B3B3B;
 }
 
-/* .button {
+.button {
     margin-top: 20px;
-} */
+    color: #FFFFFF;
+    background-color: #4F6F52 !important;
+}

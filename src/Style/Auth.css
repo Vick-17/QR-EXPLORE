@@ -1,4 +1,8 @@
 .auth-card {
-    width: 400px;
+    width: 600px;
     border-radius: 10px;
+}
+
+.login-btn {
+    width: 15rem;
 }
