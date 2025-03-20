@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-@ComponentScan("com.projectspring.api")
+//@ComponentScan("com.projectspring.api")
 public class ApiApplication {
 
 	public static void main(String[] args) {
