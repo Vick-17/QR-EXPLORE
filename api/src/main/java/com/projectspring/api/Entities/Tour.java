@@ -2,11 +2,15 @@ package com.projectspring.api.Entities;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+
 
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -25,6 +29,14 @@ public class Tour {
 
     private String name;
 
-    @OneToMany
+    @Column(nullable = false)
+    private Boolean isVisible;
+
+    @ManyToMany
+    @JoinTable(
+        name = "tour_places", 
+        joinColumns = @JoinColumn(name = "tour_id"), 
+        inverseJoinColumns = @JoinColumn(name = "place_id")
+    )
     private List<Place> places;
 }
