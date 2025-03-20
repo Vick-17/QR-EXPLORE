@@ -1,8 +1,8 @@
-package com.projectspring.api.controllers;
+package com.projectspring.api.Controllers;
 
 import com.projectspring.api.dtos.QRCodeDto;
 import com.projectspring.api.generic.GenericController;
-import com.projectspring.api.services.QRCodeService;
+import com.projectspring.api.Services.QRCodeService;
 
 import org.springframework.web.bind.annotation.*;
 

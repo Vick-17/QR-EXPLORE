@@ -1,7 +1,7 @@
-package com.projectspring.api.controllers;
+package com.projectspring.api.Controllers;
 
 import com.projectspring.api.dtos.UserDto;
-import com.projectspring.api.services.UserService;
+import com.projectspring.api.Services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import com.projectspring.api.generic.GenericController;

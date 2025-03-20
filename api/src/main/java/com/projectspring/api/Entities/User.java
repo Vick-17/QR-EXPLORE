@@ -1,4 +1,4 @@
-package com.projectspring.api.entities;
+package com.projectspring.api.Entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,12 +40,9 @@ public class User extends BaseEntity {
   @ManyToMany
   @JoinTable(name = "recording", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_place"))
   private Set<Place> recording = new HashSet<>();
-<<<<<<< HEAD:api/src/main/java/com/projectspring/api/Entities/User.java
 
   @ManyToMany
   @JoinTable(name = "toLater", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_place"))
   private Set<Place> toLater = new HashSet<>();
-=======
->>>>>>> origin/feat-CREATE-QRCODE:api/src/main/java/com/projectspring/api/entities/User.java
 
 }

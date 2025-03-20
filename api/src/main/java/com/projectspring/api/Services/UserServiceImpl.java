@@ -1,4 +1,4 @@
-package com.projectspring.api.services;
+package com.projectspring.api.Services;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.projectspring.api.dtos.UserDto;
 import com.projectspring.api.entities.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 import com.projectspring.api.generic.GenericService;
 import com.projectspring.api.generic.GenericServiceImpl;
 import com.projectspring.api.mappers.UserMapper;
-import com.projectspring.api.entities.Role;
+import com.projectspring.api.Entities.Role;
 import com.projectspring.api.repositories.RoleRepository;
 import com.projectspring.api.repositories.UserRepository;
 

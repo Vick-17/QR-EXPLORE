@@ -1,6 +1,5 @@
 package com.projectspring.api.dtos;
 
-import com.projectspring.api.entities.PlaceSubtype;
 import com.projectspring.api.generic.BaseDto;
 import lombok.EqualsAndHashCode;
 import lombok.Value;

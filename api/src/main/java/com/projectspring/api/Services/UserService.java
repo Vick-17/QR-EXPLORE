@@ -1,4 +1,4 @@
-package com.projectspring.api.services;
+package com.projectspring.api.Services;
 
 import com.projectspring.api.dtos.UserDto;
 import com.projectspring.api.generic.GenericService;

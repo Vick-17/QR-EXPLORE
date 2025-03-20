@@ -1,11 +1,10 @@
-package com.projectspring.api.controllers;
+package com.projectspring.api.Controllers;
 
 import com.projectspring.api.dtos.CommentDto;
 import com.projectspring.api.generic.GenericController;
-import com.projectspring.api.services.CommentService;
+import com.projectspring.api.Services.CommentService;
 
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpStatus;
 
 
 @RestController

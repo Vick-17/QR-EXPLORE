@@ -1,7 +1,7 @@
-package com.projectspring.api.controllers;
+package com.projectspring.api.Controllers;
 
 import com.projectspring.api.dtos.TourDto;
-import com.projectspring.api.services.TourService;
+import com.projectspring.api.Services.TourService;
 import org.springframework.web.bind.annotation.*;
 
 import com.projectspring.api.generic.GenericController;
