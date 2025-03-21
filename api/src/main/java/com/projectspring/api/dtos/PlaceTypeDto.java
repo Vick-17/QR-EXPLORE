@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * DTO for {@link com.projectspring.api.entities.PlaceType}
@@ -14,6 +13,4 @@ import java.util.List;
 @Value
 public class PlaceTypeDto extends BaseDto implements Serializable {
     String name;
-    List<PlaceSubtypeDto> placeSubtypes;
-    List<PlaceDto> places;
 }

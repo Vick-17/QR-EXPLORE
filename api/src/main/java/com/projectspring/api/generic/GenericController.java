@@ -24,7 +24,7 @@ public abstract class GenericController<D extends BaseDto, S extends GenericServ
     }
 
 
-    @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
+    @RequestMapping(value = "save", method = {RequestMethod.POST, RequestMethod.PUT})
     public ResponseEntity<D> saveOrUpdate(@RequestBody D dto) {
         return ResponseEntity
                 .status(dto.getId() == 0 ? HttpStatus.CREATED : HttpStatus.OK)

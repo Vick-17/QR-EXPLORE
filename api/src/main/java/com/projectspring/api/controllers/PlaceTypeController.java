@@ -7,7 +7,7 @@ import com.projectspring.api.services.PlaceTypeService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/placeTypes")
+@RequestMapping("/placetypes")
 public class PlaceTypeController extends GenericController<PlaceTypeDto, PlaceTypeService> {
 
     public PlaceTypeController(PlaceTypeService service) {

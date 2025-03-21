@@ -28,9 +28,6 @@ public class Place extends BaseEntity {
     @Transient
     private MultipartFile picture;
 
-    @OneToOne(mappedBy = "place")
-    private QRCode qrCode;
-
     @ManyToOne
     @JoinColumn(name = "place_type_id")
     private PlaceType placeType;
