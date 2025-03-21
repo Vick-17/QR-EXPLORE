@@ -1,6 +1,9 @@
 package com.projectspring.api.services;
 
 import com.projectspring.api.dtos.PlaceDto;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.projectspring.api.entities.Place;
@@ -18,6 +21,13 @@ public class PlaceServiceImpl
 
     public PlaceServiceImpl(PlaceRepository repository, PlaceMapper mapper) {
         super(repository, mapper);
+    }
+
+    public List<PlaceDto> search(String name) {
+        List<Place> places = repository.findByNameStartingWithIgnoreCase(name);
+        return places.stream()
+                     .map(mapper::toDto)
+                     .toList();
     }
     
 }

@@ -32,7 +32,7 @@ const SignUp = () => {
     try {
       await post("/users/register", formData);
       console.log(formData)
-      // window.location.href = "/auth";
+      window.location.href = "/auth";
     } catch (e) {
       console.error("Erreur lors de l'inscription", e);
     } finally {
