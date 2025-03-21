@@ -30,7 +30,7 @@ const SignUp = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // await post("/users", formData);
+      await post("/users/register", formData);
       console.log(formData)
       // window.location.href = "/auth";
     } catch (e) {
