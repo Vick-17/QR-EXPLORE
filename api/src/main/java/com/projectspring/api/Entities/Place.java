@@ -1,4 +1,4 @@
-package com.projectspring.api.Entities;
+package com.projectspring.api.entities;
 
 
 import com.projectspring.api.generic.BaseEntity;

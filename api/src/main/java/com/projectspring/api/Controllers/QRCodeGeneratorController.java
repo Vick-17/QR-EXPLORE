@@ -1,9 +1,10 @@
-package com.projectspring.api.Controllers;
+package com.projectspring.api.controllers;
 
-import com.projectspring.api.Services.QRCodeGeneratorServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import com.projectspring.api.services.QRCodeGeneratorServiceImpl;
 
 @RestController
 @Slf4j

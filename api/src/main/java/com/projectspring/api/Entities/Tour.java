@@ -17,6 +17,9 @@ public class Tour extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany
+    private Boolean isVisible;
+
+    @ManyToMany
+    @JoinTable(name = "tour_places", joinColumns = @JoinColumn(name = "tour_id"), inverseJoinColumns = @JoinColumn(name = "place_id"))
     private List<Place> places;
 }

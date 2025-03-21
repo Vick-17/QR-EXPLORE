@@ -1,26 +1,30 @@
-package com.projectspring.api.Services;
+package com.projectspring.api.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.projectspring.api.dtos.UserDto;
+import com.projectspring.api.entities.Place;
+import com.projectspring.api.entities.Role;
 import com.projectspring.api.entities.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.projectspring.api.generic.GenericService;
 import com.projectspring.api.generic.GenericServiceImpl;
 import com.projectspring.api.mappers.UserMapper;
-import com.projectspring.api.Entities.Role;
+import com.projectspring.api.repositories.PlaceRepository;
 import com.projectspring.api.repositories.RoleRepository;
 import com.projectspring.api.repositories.UserRepository;
 
@@ -48,10 +52,15 @@ public class UserServiceImpl
 
     private final RoleRepository roleRepository;
 
-    public UserServiceImpl(UserRepository repository, UserMapper mapper, UserRepository userRepository, RoleRepository roleRepository) {
+    private final PlaceRepository placeRepository;
+
+    private static final String USER_NOT_FOUND_WITH_NAME = "Utilisateur introuvable avec le nom: ";
+
+    public UserServiceImpl(UserRepository repository, UserMapper mapper, UserRepository userRepository, RoleRepository roleRepository, PlaceRepository placeRepository) {
         super(repository, mapper);
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.placeRepository = placeRepository;
     }
 
     /**
@@ -87,24 +96,109 @@ public class UserServiceImpl
                     authorities);
         }
     }
-    //TODO: erreurs détectées dans cette méthode (à corriger)
-//    public UserDto createUser(UserDto user) {
-//        Optional<User> existingUser = repository.findByUsername(user.getUsername());
-//        if (existingUser.isPresent() && existingUser.get().getUsername().equals(user.getUsername())) {
-//            throw new RuntimeException("L'adresse ou le nom d'utilisateur e-mail est déjà utilisée.");
-//        }
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        String passwordEncode = bCryptPasswordEncoder.encode(user.getPassword());
-//        user.setPassword(passwordEncode);
-//        Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
-//        if (userRole.isEmpty()) {
-//            userRole.setName("ROLE_USER");
-//            roleRepository.save(userRole.get());
-//        }
-//        user.getRoles().add(toEntity(userRole.get()));
-//        return saveOrUpdate(user);
-//    }
 
+    public User createUser(UserDto userDto) {
+        Optional<User> existingUser = repository.findByUsername(userDto.getUsername());
+        if (existingUser.isPresent()) {
+            throw new RuntimeException("L'adresse ou le nom d'utilisateur est déjà utilisée.");
+        }
 
+        // Conversion UserDto -> User
+        User user = toEntity(userDto);
+
+        // Encode le mot de passe sur l'entité User
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+        // Vérification du rôle
+        Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
+        if (userRole.isEmpty()) {
+            Role newRole = new Role();
+            newRole.setName("ROLE_USER");
+            roleRepository.save(newRole);
+            userRole = Optional.of(newRole);
+        }
+
+        user.getRoles().add(userRole.get());
+
+        // Sauvegarde et conversion en DTO
+        return repository.save(user);
+    }
+
+    @Transactional
+    public User addPlaceToFavorite(List<Long> placeIds) {
+        // Récupérer l'utilisateur authentifié
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = (principal instanceof UserDetails userDetails) ? userDetails.getUsername()
+                : principal.toString();
+        User user = repository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_WITH_NAME + username));
+
+        // Récupérer les lieux sans créer de doublons
+        Set<Place> places = new HashSet<>(placeRepository.findAllById(placeIds));
+
+        if (places.isEmpty()) {
+            throw new IllegalArgumentException("Aucun lieu trouvé avec les IDs fournis");
+        }
+
+        // Ajouter les lieux aux favoris (évite les doublons grâce à Set)
+        user.getRecording().addAll(places);
+        
+
+        // Retourner un DTO avec la liste des lieux mis à jour
+        return repository.save(user);
+    }
+
+    @Transactional
+    public User removeFavorite(Long placeId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = repository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
+
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new IllegalArgumentException("Lieu introuvable"));
+
+        user.getRecording().remove(place);
+        
+        return repository.save(user);
+    }
+
+    @Transactional
+    public User addPlaceToLater(List<Long> placeIds) {
+        // Récupérer l'utilisateur authentifié
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = (principal instanceof UserDetails userDetails) ? userDetails.getUsername()
+                : principal.toString();
+
+        User user = repository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
+
+        // Récupérer les lieux sans créer de doublons
+        Set<Place> places = new HashSet<>(placeRepository.findAllById(placeIds));
+
+        if (places.isEmpty()) {
+            throw new IllegalArgumentException("Aucun lieu trouvé avec les IDs fournis");
+        }
+
+        // Ajouter les lieux aux favoris (évite les doublons grâce à Set)
+        user.getToLater().addAll(places);
+
+        return repository.save(user);
+    }
+
+    @Transactional
+    public User removeForLater(Long placeId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = repository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
+
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new IllegalArgumentException("Lieu introuvable"));
+
+        user.getToLater().remove(place);
+        repository.save(user);
+
+        return repository.save(user);
+    }
 
 }

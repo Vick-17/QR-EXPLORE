@@ -6,6 +6,8 @@ import lombok.Value;
 
 import java.io.Serializable;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * DTO for {@link com.projectspring.api.entities.Comment}
  */
@@ -16,4 +18,5 @@ public class CommentDto extends BaseDto implements Serializable {
     String imageName;
     PlaceDto place;
     UserDto user;
+    MultipartFile picture;
 }

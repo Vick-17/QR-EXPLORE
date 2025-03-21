@@ -1,9 +1,9 @@
-package com.projectspring.api.Controllers;
+package com.projectspring.api.controllers;
 
 import com.projectspring.api.dtos.PlaceSubtypeDto;
 import com.projectspring.api.generic.GenericController;
+import com.projectspring.api.services.PlaceSubtypeService;
 
-import com.projectspring.api.Services.PlaceSubtypeService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

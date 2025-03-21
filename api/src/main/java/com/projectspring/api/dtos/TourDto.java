@@ -13,7 +13,10 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Value
 public class TourDto extends BaseDto implements Serializable {
-    String name;
+ 
 
-    List<PlaceDto> places;
+    String name;
+    Boolean isVisible;
+
+    List<Long> placeIds;
 }

@@ -21,4 +21,5 @@ public class UserDto extends BaseDto implements Serializable {
     String password;
     Collection<RoleDto> roles;
     Set<PlaceDto> recording;
+    Set<PlaceDto> toLater;
 }

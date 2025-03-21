@@ -2,7 +2,7 @@ package com.projectspring.api.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.projectspring.api.Entities.User;
+import com.projectspring.api.entities.User;
 
 import java.util.Optional;
 

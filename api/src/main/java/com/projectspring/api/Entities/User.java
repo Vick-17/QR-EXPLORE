@@ -1,4 +1,4 @@
-package com.projectspring.api.Entities;
+package com.projectspring.api.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;

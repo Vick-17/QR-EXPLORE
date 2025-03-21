@@ -1,8 +1,8 @@
-package com.projectspring.api.Controllers;
+package com.projectspring.api.controllers;
 
 import com.projectspring.api.dtos.PlaceTypeDto;
 import com.projectspring.api.generic.GenericController;
-import com.projectspring.api.Services.PlaceTypeService;
+import com.projectspring.api.services.PlaceTypeService;
 
 import org.springframework.web.bind.annotation.*;
 
