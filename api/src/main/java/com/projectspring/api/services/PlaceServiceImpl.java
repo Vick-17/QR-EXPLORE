@@ -1,6 +1,7 @@
 package com.projectspring.api.services;
 
 import com.projectspring.api.dtos.PlaceDto;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.projectspring.api.entities.Place;
@@ -16,7 +17,7 @@ public class PlaceServiceImpl
         PlaceRepository,
         PlaceMapper> implements PlaceService {
 
-    public PlaceServiceImpl(PlaceRepository repository, PlaceMapper mapper) {
+    public PlaceServiceImpl(PlaceRepository repository, @Qualifier("placeMapperImpl") PlaceMapper mapper) {
         super(repository, mapper);
     }
     

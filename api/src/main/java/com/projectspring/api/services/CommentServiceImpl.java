@@ -8,6 +8,7 @@ import com.projectspring.api.dtos.CommentDto;
 import com.projectspring.api.mappers.CommentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,7 +47,7 @@ public class CommentServiceImpl
 
     private final FileStorageService fileStorageService;
 
-    public CommentServiceImpl(CommentRepository repository, CommentMapper mapper, PlaceRepository placeRepository, UserRepository userRepository, FileStorageService fileStorageService) {
+    public CommentServiceImpl(CommentRepository repository, @Qualifier("commentMapperImpl") CommentMapper mapper, PlaceRepository placeRepository, UserRepository userRepository, FileStorageService fileStorageService) {
         super(repository, mapper);
         this.placeRepository = placeRepository;
         this.userRepository = userRepository;

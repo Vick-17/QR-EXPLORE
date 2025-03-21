@@ -9,6 +9,7 @@ import com.projectspring.api.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -47,7 +48,7 @@ public class UserServiceImpl
 
     private final RoleRepository roleRepository;
 
-    public UserServiceImpl(UserRepository repository, UserMapper mapper, UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository repository, @Qualifier("userMapperImpl") UserMapper mapper, UserRepository userRepository, RoleRepository roleRepository) {
         super(repository, mapper);
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;

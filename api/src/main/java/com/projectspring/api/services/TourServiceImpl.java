@@ -1,6 +1,7 @@
 package com.projectspring.api.services;
 
 import com.projectspring.api.dtos.TourDto;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.projectspring.api.entities.Tour;
@@ -16,7 +17,7 @@ public class TourServiceImpl
         TourRepository,
         TourMapper> implements TourService {
 
-    public TourServiceImpl(TourRepository repository, TourMapper mapper) {
+    public TourServiceImpl(TourRepository repository, @Qualifier("tourMapperImpl") TourMapper mapper) {
         super(repository, mapper);
     }
     

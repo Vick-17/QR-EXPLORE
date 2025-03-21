@@ -1,6 +1,7 @@
 package com.projectspring.api.services;
 
 import com.projectspring.api.dtos.PlaceSubtypeDto;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.projectspring.api.entities.PlaceSubtype;
@@ -16,7 +17,7 @@ public class PlaceSubTypeServiceImpl
         PlaceSubTypeRepository,
         PlaceSubtypeMapper> implements PlaceSubtypeService {
 
-    public PlaceSubTypeServiceImpl(PlaceSubTypeRepository repository, PlaceSubtypeMapper mapper) {
+    public PlaceSubTypeServiceImpl(PlaceSubTypeRepository repository, @Qualifier("placeSubtypeMapperImpl") PlaceSubtypeMapper mapper) {
         super(repository, mapper);
     }
     
