@@ -10,10 +10,10 @@ function Welcome() {
           QR Explore
         </Typography>
         <Typography variant="body1" className="description">
-          Voici un petit texte qui décrit quelque chose d intéressant.
+          Voici un petit texte qui décrit quelque chose d'intéressant.
         </Typography>
         <Button variant="contained" className="button">
-          Explore Now
+          Explorer maintenant
         </Button>
       </Box>
 

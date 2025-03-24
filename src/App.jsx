@@ -7,6 +7,7 @@ import Auth from './pages/Auth';
 import SignUp from './pages/SignUp';
 
 import './Style/App.css';
+import PlacesAddition from "./pages/PlacesAddition.jsx";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path='/auth' element={<Auth />} />
             <Route path='/signup' element={<SignUp />} />
+            <Route path='/addition-places' element={<PlacesAddition />} />
           </Route>
         </Routes>
       </Router>

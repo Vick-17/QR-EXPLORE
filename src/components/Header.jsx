@@ -22,21 +22,21 @@ const Header = () => {
                 </div>
                 <div className="collapse navbar-collapse items-button" id="navbarNavAltMarkup">
                     <div className="navbar-nav items">
-                        <Link to="/" className='nav-link active items'>Home</Link>
+                        <Link to="/" className='nav-link active items'>Accueil</Link>
                         {/* <a className="nav-link active items" aria-current="page" href="#">Home</a> */}
                     </div>
                     <div className="navbar-nav items">
-                        <a className="nav-link active items" href="#">About</a>
+                        <a className="nav-link active items" href="#">À propos</a>
                     </div>
 
                     <div className="dropdown">
                         <button className=" dropdown-toggle items dropdown-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown button
+                            QR Explore
                         </button>
                         <ul className="dropdown-menu items dropdown-button">
-                            <li><a className="dropdown-item " href="#">Action</a></li>
-                            <li><a className="dropdown-item" href="#">Another action</a></li>
-                            <li><a className="dropdown-item" href="#">Something else here</a></li>
+                            <li><a className="dropdown-item " href="/addition-places">Ajout de lieux avec QR code</a></li>
+                            <li><a className="dropdown-item" href="#">Consultation des lieux</a></li>
+                            <li><a className="dropdown-item" href="#">Autre action</a></li>
                         </ul>
                     </div>
                 </div>
