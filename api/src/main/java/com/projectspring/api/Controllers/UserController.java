@@ -1,9 +1,11 @@
 package com.projectspring.api.controllers;
 
 import com.projectspring.api.dtos.UserDto;
+import com.projectspring.api.entities.Place;
 import com.projectspring.api.entities.User;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +51,10 @@ public class UserController extends GenericController<UserDto, UserService> {
         return ResponseEntity.ok(updatedUser);
     }
 
-    
+    @GetMapping("/favorites")
+    public ResponseEntity<Set<Place>> getFavorites() {
+        Set<Place> places = service.getFavoriteByUserId();
+        return ResponseEntity.ok(places);
+    }
 
 }

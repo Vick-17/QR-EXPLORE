@@ -61,11 +61,11 @@ const PlaceList = () => {
                                 <h2 className="place-title">{place.name}</h2>
                                 <p className="place-description">{place.description}</p>
                                 <div className="place-actions">
-                                    <button className="btn btn-primary">
-                                        <i className="icon-heart"></i> Save to Favorites
+                                    <button className="btn_action">
+                                        Save to Favorites
                                     </button>
-                                    <button className="btn btn-secondary">
-                                        <i className="icon-clock"></i> Save for Later
+                                    <button className="btn_action">
+                                        Save for Later
                                     </button>
                                 </div>
                             </div>

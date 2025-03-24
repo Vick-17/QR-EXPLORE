@@ -38,11 +38,11 @@ import jakarta.transaction.Transactional;
  */
 @Service
 public class UserServiceImpl
-        extends GenericServiceImpl<
-        User,
-        UserDto,
-        UserRepository,
-        UserMapper> implements UserDetailsService, UserService {
+    extends GenericServiceImpl<
+    User,
+    UserDto,
+    UserRepository,
+    UserMapper> implements UserDetailsService, UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -58,10 +58,10 @@ public class UserServiceImpl
     private static final String USER_NOT_FOUND_WITH_NAME = "Utilisateur introuvable avec le nom: ";
 
     public UserServiceImpl(UserRepository repository, UserMapper mapper, UserRepository userRepository, RoleRepository roleRepository, PlaceRepository placeRepository) {
-        super(repository, mapper);
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.placeRepository = placeRepository;
+    super(repository, mapper);
+    this.userRepository = userRepository;
+    this.roleRepository = roleRepository;
+    this.placeRepository = placeRepository;
     }
 
     /**
@@ -71,135 +71,126 @@ public class UserServiceImpl
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // ATTENTION -> objet de la classe "models.User"
-        Optional<User> user = userRepository.findByUsername(username);
-        if (user.isEmpty()) {
-            // pas d'utilisateur, on renvoie une exception
-            String message = String.format(USER_NOT_FOUND_MESSAGE, username);
-            LOGGER.error(message);
-            throw new UsernameNotFoundException(message);
-        } else {
-            // utilisateur retrouvé, on instancie une liste d' "authorities" qui
-            // correspondent à des roles
-            LOGGER.debug(USER_FOUND_MESSAGE, username);
-            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            user.get().getRoles().forEach(role -> {
-                authorities.add(new SimpleGrantedAuthority(role.getName()));
-            });
+    Optional<User> user = userRepository.findByUsername(username);
+    if (user.isEmpty()) {
+        String message = String.format(USER_NOT_FOUND_MESSAGE, username);
+        LOGGER.error(message);
+        throw new UsernameNotFoundException(message);
+    } else {
+        LOGGER.debug(USER_FOUND_MESSAGE, username);
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.get().getRoles().forEach(role -> {
+        authorities.add(new SimpleGrantedAuthority(role.getName()));
+        });
 
-            /**
-             * ATTENTION -> instanciation d'un objet de la classe "User" provenant du
-             * package "org.springframework.security.core.userdetails"
-             * Cette classe hérite de "UserDetails" et est propre au framework de sécurité
-             * de Spring.
-             */
-            return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(),
-                    authorities);
-        }
+        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(),
+            authorities);
+    }
     }
 
     public User createUser(UserDto userDto) {
-        Optional<User> existingUser = repository.findByUsername(userDto.getUsername());
-        if (existingUser.isPresent()) {
-            throw new RuntimeException("L'adresse ou le nom d'utilisateur est déjà utilisée.");
-        }
+    Optional<User> existingUser = repository.findByUsername(userDto.getUsername());
+    if (existingUser.isPresent()) {
+        throw new RuntimeException("L'adresse ou le nom d'utilisateur est déjà utilisée.");
+    }
 
-        // Conversion UserDto -> User
-        User user = toEntity(userDto);
+    User user = toEntity(userDto);
 
-        // Encode le mot de passe sur l'entité User
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        // Vérification du rôle
-        Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
-        if (userRole.isEmpty()) {
-            Role newRole = new Role();
-            newRole.setName("ROLE_USER");
-            roleRepository.save(newRole);
-            userRole = Optional.of(newRole);
-        }
+    Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
+    if (userRole.isEmpty()) {
+        Role newRole = new Role();
+        newRole.setName("ROLE_USER");
+        roleRepository.save(newRole);
+        userRole = Optional.of(newRole);
+    }
 
-        user.getRoles().add(userRole.get());
+    user.getRoles().add(userRole.get());
 
-        // Sauvegarde et conversion en DTO
-        return repository.save(user);
+    return repository.save(user);
     }
 
     @Transactional
     public User addPlaceToFavorite(List<Long> placeIds) {
-        // Récupérer l'utilisateur authentifié
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = (principal instanceof UserDetails userDetails) ? userDetails.getUsername()
-                : principal.toString();
-        User user = repository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_WITH_NAME + username));
+    Long userId = getAuthenticatedUserId();
+    User user = repository.findById(userId)
+        .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_WITH_NAME + userId));
 
-        // Récupérer les lieux sans créer de doublons
-        Set<Place> places = new HashSet<>(placeRepository.findAllById(placeIds));
+    Set<Place> places = new HashSet<>(placeRepository.findAllById(placeIds));
 
-        if (places.isEmpty()) {
-            throw new IllegalArgumentException("Aucun lieu trouvé avec les IDs fournis");
-        }
+    if (places.isEmpty()) {
+        throw new IllegalArgumentException("Aucun lieu trouvé avec les IDs fournis");
+    }
 
-        // Ajouter les lieux aux favoris (évite les doublons grâce à Set)
-        user.getRecording().addAll(places);
-        
+    user.getRecording().addAll(places);
 
-        // Retourner un DTO avec la liste des lieux mis à jour
-        return repository.save(user);
+    return repository.save(user);
     }
 
     @Transactional
     public User removeFavorite(Long placeId) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = repository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
+    Long userId = getAuthenticatedUserId();
+    User user = repository.findById(userId)
+        .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId));
 
-        Place place = placeRepository.findById(placeId)
-                .orElseThrow(() -> new IllegalArgumentException("Lieu introuvable"));
+    Place place = placeRepository.findById(placeId)
+        .orElseThrow(() -> new IllegalArgumentException("Lieu introuvable"));
 
-        user.getRecording().remove(place);
-        
-        return repository.save(user);
+    user.getRecording().remove(place);
+
+    return repository.save(user);
     }
 
     @Transactional
     public User addPlaceToLater(List<Long> placeIds) {
-        // Récupérer l'utilisateur authentifié
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = (principal instanceof UserDetails userDetails) ? userDetails.getUsername()
-                : principal.toString();
+    Long userId = getAuthenticatedUserId();
+    User user = repository.findById(userId)
+        .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId));
 
-        User user = repository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
+    Set<Place> places = new HashSet<>(placeRepository.findAllById(placeIds));
 
-        // Récupérer les lieux sans créer de doublons
-        Set<Place> places = new HashSet<>(placeRepository.findAllById(placeIds));
+    if (places.isEmpty()) {
+        throw new IllegalArgumentException("Aucun lieu trouvé avec les IDs fournis");
+    }
 
-        if (places.isEmpty()) {
-            throw new IllegalArgumentException("Aucun lieu trouvé avec les IDs fournis");
-        }
+    user.getToLater().addAll(places);
 
-        // Ajouter les lieux aux favoris (évite les doublons grâce à Set)
-        user.getToLater().addAll(places);
-
-        return repository.save(user);
+    return repository.save(user);
     }
 
     @Transactional
     public User removeForLater(Long placeId) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = repository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
+    Long userId = getAuthenticatedUserId();
+    User user = repository.findById(userId)
+        .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId));
 
-        Place place = placeRepository.findById(placeId)
-                .orElseThrow(() -> new IllegalArgumentException("Lieu introuvable"));
+    Place place = placeRepository.findById(placeId)
+        .orElseThrow(() -> new IllegalArgumentException("Lieu introuvable"));
 
-        user.getToLater().remove(place);
-        repository.save(user);
+    user.getToLater().remove(place);
 
-        return repository.save(user);
+    return repository.save(user);
     }
 
+    public Set<Place> getFavoriteByUserId() {
+    Long userId = getAuthenticatedUserId();
+    Optional<User> userOptional = repository.findById(userId);
+    if (userOptional.isEmpty()) {
+        throw new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId);
+    }
+    return userOptional.get().getRecording();
+    }
+
+    private Long getAuthenticatedUserId() {
+    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    String username = (principal instanceof UserDetails userDetails) ? userDetails.getUsername()
+        : principal.toString();
+
+    User user = repository.findByUsername(username)
+        .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
+
+    return user.getId();
+    }
 }

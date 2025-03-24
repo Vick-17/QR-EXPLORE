@@ -6,7 +6,8 @@ import HomePage from './pages/HomePage';
 import Auth from './pages/Auth';
 import SignUp from './pages/SignUp';
 import PlaceList from './pages/PlaceList';
-import Place from './pages/Place';
+import UserProfil from './pages/UserProfil';
+import "./Style/pages/UserProfil.css";
 
 import './Style/App.css';
 
@@ -21,7 +22,7 @@ function App() {
           <Route path='/auth' element={<Auth />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/places' element={<PlaceList />} />
-          <Route path='/places/:id' element={<Place />} />
+          <Route path='/profil' element={<UserProfil />} />
         </Route>
       </Routes>
     </Router>

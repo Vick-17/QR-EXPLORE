@@ -1,6 +1,5 @@
 .main-container {
-    position: relative;
-    height: 80vh;
+    height: 80.7vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8,8 +7,6 @@
     color: white;
     background-size: cover;
     background-position: center;
-    padding: 20px;
-    margin: 2.5rem 0rem;
 }
 
 .content-box {
