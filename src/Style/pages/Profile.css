@@ -1,0 +1,19 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.profile-card {
+width: 300px;
+text-align: center;
+padding: 20px;
+}
+
+.profile-img {
+width: 150px;
+height: 150px;
+border-radius: 50%;
+margin: 0 auto 15px;
+}
