@@ -1,13 +1,13 @@
 package com.projectspring.api.controllers;
 
 import com.projectspring.api.dtos.CommentDto;
-import com.projectspring.api.entities.Comment;
 import com.projectspring.api.generic.GenericController;
 import com.projectspring.api.mappers.CommentMapper;
 import com.projectspring.api.services.CommentService;
 
+import org.springframework.http.MediaType;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 
@@ -53,5 +53,10 @@ public class CommentController extends GenericController<CommentDto, CommentServ
     @PutMapping(value = "/updateComment")
     public CommentDto updateComment(@ModelAttribute CommentDto comment, @RequestParam Long commentId) {
         return service.updateComment(comment, commentId);
+    }
+
+    @GetMapping(value = "/getImage/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public byte[] getImage(@PathVariable Long id) {
+        return service.getImage(id);
     }
 }

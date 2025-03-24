@@ -1,3 +1,9 @@
 footer {
+    bottom: 0;
+    width: 100%;
+    background-color: #C9B99A;
     color: #3B3B3B;
+    padding: 10px;
+    text-align: center;
+    z-index: 55;
 }

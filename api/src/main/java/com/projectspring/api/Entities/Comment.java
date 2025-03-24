@@ -28,7 +28,6 @@ public class Comment extends BaseEntity {
     @Transient // Cette annotation indique que le champ ne sera pas persisté dans la base de données
     private MultipartFile picture;
 
-    @Column(nullable = false)
     private String imageName;
     
     /*

@@ -5,9 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 import com.projectspring.api.dtos.CommentDto;
 import com.projectspring.api.mappers.CommentMapper;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,7 @@ public class CommentServiceImpl
     private final PlaceRepository placeRepository;
     private final UserRepository userRepository;
     private final FileStorageService fileStorageService;
+    Logger logger = LoggerFactory.getLogger(FileStorageService.class);
 
     public CommentServiceImpl(CommentRepository repository, CommentMapper mapper, PlaceRepository placeRepository,
             UserRepository userRepository, FileStorageService fileStorageService) {
@@ -171,5 +175,23 @@ public class CommentServiceImpl
         }
 
         return repository.findByUserId(userId);
+    }
+
+    public byte[] getImage(Long commentId) {
+        Path rooLocation = this.fileStorageService.getRootLocation();
+        Optional<Comment> comment = repository.findById(commentId);
+
+        if (comment.isPresent()) {
+
+            String imageName = comment.get().getImageName();
+            Path imagePath = rooLocation.resolve(imageName);
+
+            try {
+                return Files.readAllBytes(imagePath);
+            } catch (IOException e) {
+                logger.error(e.getMessage());
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
     }
 }
