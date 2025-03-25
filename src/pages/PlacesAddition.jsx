@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {useState} from "react";
 import {DetailsPlaceForm} from "../components/DetailsPlaceForm.jsx";
+import InputPlaceImageUpload from "../components/InputPlaceImageUpload.jsx";
 
 const steps = ["Renseignement des infos sur le lieu", "Ajout d'une photo du lieu", "Création d'un QR code associé au lieu"];
 
@@ -65,15 +66,13 @@ function PlacesAddition() {
 
           {/* Pour l'étape n°2 : ajout d'une photo du lieu */}
           {activeStep === 1 && (
-            <Box>
-
-            </Box>
+            <InputPlaceImageUpload />
           )}
 
           {/* Pour l'étape n°3 : génération d'un QR code associé au lieu */}
           {activeStep === steps.length - 1 && (
             <Box>
-
+              Composant de génération de QR code
             </Box>
           )}
 

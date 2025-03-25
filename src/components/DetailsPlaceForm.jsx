@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {post} from "../service/BackendService.js";
+import "../Style/components/DetailsPlaceForm.css"
 
 export const DetailsPlaceForm = ({submitted, onSubmit}) => {
 
@@ -32,9 +33,9 @@ export const DetailsPlaceForm = ({submitted, onSubmit}) => {
 
   return (
     <div>
-      <h2>Détails du lieu à renseigner :</h2>
+      <h2>Détails du lieu à renseigner</h2>
       <form onSubmit={handleSubmit}>
-        <div className="mb-3">
+        <div className="mb-3" >
           <label className="form-label">Nom du lieu :</label>
           <input type="text" className="form-control" name="name" value={formData.name} onChange={handleChange} required />
         </div>
