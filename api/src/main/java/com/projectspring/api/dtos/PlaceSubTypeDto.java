@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 @EqualsAndHashCode(callSuper = true)
 @Value
-public class PlaceSubtypeDto extends BaseDto implements Serializable {
+public class PlaceSubTypeDto extends BaseDto implements Serializable {
     String name;
     PlaceTypeDto placeType;
 }

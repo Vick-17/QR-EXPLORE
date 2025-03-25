@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity
 @Table(name = "place_subtype")
-public class PlaceSubtype extends BaseEntity {
+public class PlaceSubType extends BaseEntity {
 
     @Column(nullable = false)
     private String name;

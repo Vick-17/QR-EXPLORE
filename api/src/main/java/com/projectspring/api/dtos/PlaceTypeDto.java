@@ -14,6 +14,6 @@ import java.util.List;
 @Value
 public class PlaceTypeDto extends BaseDto implements Serializable {
     String name;
-    List<PlaceSubtypeDto> placeSubtypes;
+    List<PlaceSubTypeDto> placeSubtypes;
     List<PlaceDto> places;
 }

@@ -19,7 +19,7 @@ public class PlaceType extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "placeType")
-    private List<PlaceSubtype> placeSubtypes;
+    private List<PlaceSubType> placeSubtypes;
 
     @OneToMany(mappedBy = "placeType")
     private List<Place> places;
