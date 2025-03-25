@@ -28,7 +28,7 @@ public class Place extends BaseEntity {
     @Transient
     private MultipartFile picture;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "place_type_id")
     private PlaceType placeType;
 

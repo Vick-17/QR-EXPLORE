@@ -1,4 +1,4 @@
-package com.projectspring.api.services.Filestorage;
+package com.projectspring.api.exceptions;
 
 public class StorageException extends RuntimeException {
 

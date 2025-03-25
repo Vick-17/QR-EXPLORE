@@ -28,7 +28,7 @@ function PlacesAddition() {
   };
 
   return (
-    <Box sx={{ width: '100%', mt: 10}}>
+    <Box sx={{ width: '100%', mt: 2}}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};
