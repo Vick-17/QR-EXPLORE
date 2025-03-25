@@ -5,7 +5,6 @@ import Layout from './Layout';
 import HomePage from './pages/HomePage';
 import Auth from './pages/Auth';
 import SignUp from './pages/SignUp';
-import PlaceList from './pages/PlaceList';
 import UserProfil from './pages/UserProfil';
 import "./Style/pages/UserProfil.css";
 
