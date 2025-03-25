@@ -78,35 +78,27 @@ function PlacesAddition() {
 
           {/* Boutons PRÉCÉDENT et SUIVANT ou TERMINER */}
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              variant="contained"
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}>
-              Précédent
-            </Button>
 
             {/* COMMENTER POUR TESTER L'ETAPE 2 */}
-            {/*{(activeStep === 0 && submitted) && (*/}
-            {/*  <Button*/}
-            {/*    variant="contained"*/}
-            {/*    onClick={handleNext}>*/}
-            {/*    Suivant*/}
-            {/*  </Button>*/}
-            {/*)}*/}
-            {/*{activeStep !== 0 && (*/}
-            {/*  <Button*/}
-            {/*    variant="contained"*/}
-            {/*    onClick={handleNext}>*/}
-            {/*    {activeStep === steps.length - 1 ? 'Terminer' : 'Suivant'}*/}
-            {/*  </Button>*/}
-            {/*)}*/}
-            <Button
-              variant="contained"
-              onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Terminer' : 'Suivant'}
-            </Button>
+            {(activeStep === 0 && submitted) && (
+              <Button
+                variant="contained"
+                onClick={handleNext}>
+                Suivant
+              </Button>
+            )}
+            {activeStep !== 0 && (
+              <Button
+                variant="contained"
+                onClick={handleNext}>
+                {activeStep === steps.length - 1 ? 'Terminer' : 'Suivant'}
+              </Button>
+            )}
+            {/*<Button*/}
+            {/*  variant="contained"*/}
+            {/*  onClick={handleNext}>*/}
+            {/*  {activeStep === steps.length - 1 ? 'Terminer' : 'Suivant'}*/}
+            {/*</Button>*/}
 
           </Box>
         </React.Fragment>

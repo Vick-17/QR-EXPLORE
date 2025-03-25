@@ -8,14 +8,20 @@ export const DetailsPlaceForm = ({submitted, onSubmit}) => {
     name: "",
     description: "",
     location: "",
-    // placeType: null
+    placeType: {name: ""}
   });
-
+  
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
+    if (e.target.name !== "placeType") {
+      setFormData({...formData, [e.target.name]: e.target.value});
+    } else {
+      setFormData({...formData, [e.target.name]: {name: e.target.value}});
+    }
   }
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +53,10 @@ export const DetailsPlaceForm = ({submitted, onSubmit}) => {
           <label className="form-label">Localisation :</label>
           <input type="text" className="form-control" name="location" value={formData.location} onChange={handleChange} required />
         </div>
-
+        <div className="mb-3">
+          <label className="form-label">Type de lieu :</label>
+          <input type="text" className="form-control" name="placeType" value={formData.placeType.name} onChange={handleChange} required />
+        </div>
         <button type="submit" className="btn btn-success">
           {loading ? "Chargement..." : "Valider les infos"}
         </button>

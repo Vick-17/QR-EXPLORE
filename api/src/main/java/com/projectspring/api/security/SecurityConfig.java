@@ -49,7 +49,7 @@ public class SecurityConfig {
         // - autoriser toutes les requêtes sur le endpoint 'login'
         // - autoriser les requêtes sur le endpoint 'users' uniquement si l'utilisateur
         // a le "ROLE_ADMIN" et qu'il est authentifié
-        // - ajouter les filtre d'authorisation et d'authentification
+        // - ajouter les filtre d'authorization et d'authentication
 
         http.csrf(csrf -> csrf.disable()) // désactivation de la vérification par défaut des attaques CSRF (pas grave vue qu'on va mettre en place un système de jetons)
                 .cors(Customizer.withDefaults()) // Activer la configuration CORS définie dans CorsConfigurationSource
@@ -57,14 +57,14 @@ public class SecurityConfig {
                         .requestMatchers("/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-                // ajout du filtre pour la phase d'authentificaiton, utilisé uniquement lors de la phase de login
-                .addFilter(new CustomAuthenticationFilter(authenticationManager))
-
-                // filtre qui va se déclencher à chaque requete juste avavant le "CustomAuthentication"
-                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class) 
-                .headers(headers -> headers.cacheControl(Customizer.withDefaults()));
+//                // ajout du filtre pour la phase d'authentification, utilisé uniquement lors de la phase de login
+//                .addFilter(new CustomAuthenticationFilter(authenticationManager))
+//
+//                // filtre qui va se déclencher à chaque requête juste avant le "CustomAuthentication"
+//                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .headers(headers -> headers.cacheControl(Customizer.withDefaults()));
 
         return http.build();
     }
@@ -72,7 +72,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*")); // Origine autorisée
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/")); // Origine autorisée
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Méthodes autorisées
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // En-têtes autorisés
         configuration.setExposedHeaders(Arrays.asList("Authorization", "access_token", "refresh_token")); // En-têtes exposés
