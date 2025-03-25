@@ -38,9 +38,6 @@ const SignUp = () => {
     } finally {
       setLoading(false);
     }
-    
-    
-    
   };
 
   return (
@@ -49,7 +46,7 @@ const SignUp = () => {
         <h2 className="text-center mb-4">Inscription</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label className="form-label">Nom de fammille</label>
+            <label className="form-label">Nom de famille</label>
             <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleChange} required />
           </div>
           <div className="mb-3">

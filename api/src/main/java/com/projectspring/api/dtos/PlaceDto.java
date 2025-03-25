@@ -15,6 +15,5 @@ public class PlaceDto extends BaseDto implements Serializable {
     String name;
     String description;
     String location;
-    QRCodeDto qrCode;
     PlaceTypeDto placeType;
 }

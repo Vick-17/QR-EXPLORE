@@ -98,7 +98,7 @@ public class FileStorageService {
     }
 
     /***
-     * Permet de charger tous les fichiers contenu dans le dossier racine.
+     * Permet de charger tous les fichiers contenus dans le dossier racine.
      * 
      * @return
      */

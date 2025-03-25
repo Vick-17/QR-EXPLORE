@@ -1,5 +1,6 @@
 package com.projectspring.api.services;
 
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,13 +31,28 @@ import com.projectspring.api.repositories.PlaceRepository;
 import com.projectspring.api.repositories.UserRepository;
 import com.projectspring.api.services.Filestorage.FileStorageService;
 
+import java.nio.file.Path;
+
 @Service
 public class CommentServiceImpl
-        extends GenericServiceImpl<Comment, CommentDto, CommentRepository, CommentMapper> implements CommentService {
+        extends GenericServiceImpl<
+        Comment,
+        CommentDto,
+        CommentRepository,
+        CommentMapper> implements CommentService {
 
+    /**
+     * Attribut permettant d'utiliser le système de log "slf4j" (API de
+     * journalisation Java)
+     * Pour plus d'informations sur slf4j ->
+     * https://www.baeldung.com/slf4j-with-log4j2-logback
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(CommentServiceImpl.class);
+
     private final PlaceRepository placeRepository;
+
     private final UserRepository userRepository;
+
     private final FileStorageService fileStorageService;
     Logger logger = LoggerFactory.getLogger(FileStorageService.class);
 

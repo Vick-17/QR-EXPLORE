@@ -6,9 +6,8 @@ import HomePage from './pages/HomePage';
 import Auth from './pages/Auth';
 import SignUp from './pages/SignUp';
 import UserProfil from './pages/UserProfil';
-import "./Style/pages/UserProfil.css";
-
 import './Style/App.css';
+import PlacesAddition from "./pages/PlacesAddition.jsx";
 
 function App() {
 
@@ -27,6 +26,7 @@ function App() {
             path='/profile' 
             element={userToken ? <UserProfil /> : <Auth />} 
           />
+          <Route path='/addition-places' element={<PlacesAddition />} />
         </Route>
       </Routes>
     </Router>

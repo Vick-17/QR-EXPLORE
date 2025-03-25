@@ -1,6 +1,5 @@
 package com.projectspring.api.services;
 
-import com.projectspring.api.dtos.PlaceDto;
 import com.projectspring.api.dtos.TourDto;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.projectspring.api.entities.Comment;
 import com.projectspring.api.entities.Place;
 import com.projectspring.api.entities.Tour;
 import com.projectspring.api.generic.GenericServiceImpl;

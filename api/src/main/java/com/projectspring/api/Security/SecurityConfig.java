@@ -49,7 +49,7 @@ public class SecurityConfig {
         // - autoriser toutes les requêtes sur le endpoint 'login'
         // - autoriser les requêtes sur le endpoint 'users' uniquement si l'utilisateur
         // a le "ROLE_ADMIN" et qu'il est authentifié
-        // - ajouter les filtre d'authorisation et d'authentification
+        // - ajouter les filtre d'authorization et d'authentication
 
         http.csrf(csrf -> csrf.disable()) // désactivation de la vérification par défaut des attaques CSRF (pas grave vue qu'on va mettre en place un système de jetons)
                 .cors(Customizer.withDefaults()) // Activer la configuration CORS définie dans CorsConfigurationSource
