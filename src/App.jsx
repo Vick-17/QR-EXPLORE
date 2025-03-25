@@ -14,6 +14,8 @@ import './Style/App.css';
 function App() {
 
 
+  const userToken = localStorage.getItem('userToken');
+
   return (
     <Router>
       <Routes>
@@ -21,8 +23,11 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path='/auth' element={<Auth />} />
           <Route path='/signup' element={<SignUp />} />
-          <Route path='/places' element={<PlaceList />} />
-          <Route path='/profil' element={<UserProfil />} />
+          <Route path='/places' />
+          <Route 
+            path='/profile' 
+            element={userToken ? <UserProfil /> : <Auth />} 
+          />
         </Route>
       </Routes>
     </Router>
