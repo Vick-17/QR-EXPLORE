@@ -27,7 +27,7 @@ export const DetailsPlaceForm = ({submitted, onSubmit}) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await post("/places", formData);
+      await post("/places/create", formData);
       console.log(formData);
       onSubmit(true);
     } catch (e) {
