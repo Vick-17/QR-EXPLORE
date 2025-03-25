@@ -15,7 +15,7 @@ public interface CommentService extends GenericService<CommentDto> {
 
     List<Comment> getCommentsByPlace(Long placeId);
 
-    List<Comment> getCommentsByUser(Long userId);
+    List<Comment> getCommentsByUser();
 
     byte[] getImage(Long commentId);
 }

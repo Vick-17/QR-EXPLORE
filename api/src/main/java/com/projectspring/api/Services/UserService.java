@@ -21,4 +21,6 @@ public interface UserService extends GenericService<UserDto> {
     User addPlaceToFavorite(List<Long> placeIds);
 
     Set<Place> getFavoriteByUserId();
+
+    Set<Place> getToLaterByUserId();
 }

@@ -57,4 +57,10 @@ public class UserController extends GenericController<UserDto, UserService> {
         return ResponseEntity.ok(places);
     }
 
+    @GetMapping("/toLater")
+    public ResponseEntity<Set<Place>> getToLater() {
+        Set<Place> places = service.getToLaterByUserId();
+        return ResponseEntity.ok(places);
+    }
+
 }

@@ -168,7 +168,8 @@ public class CommentServiceImpl
         return repository.findByPlaceId(placeId);
     }
 
-    public List<Comment> getCommentsByUser(Long userId) {
+    public List<Comment> getCommentsByUser() {
+        Long userId = getAuthenticatedUserId();
         // Vérifier si l'utilisateur existe avant de récupérer les commentaires
         if (!userRepository.existsById(userId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
@@ -193,5 +194,16 @@ public class CommentServiceImpl
             }
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
+    }
+
+    private Long getAuthenticatedUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = (principal instanceof UserDetails userDetails) ? userDetails.getUsername()
+                : principal.toString();
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
+
+        return user.getId();
     }
 }

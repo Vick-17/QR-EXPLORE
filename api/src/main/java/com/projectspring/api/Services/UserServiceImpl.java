@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-
 import com.projectspring.api.dtos.UserDto;
 import com.projectspring.api.entities.Place;
 import com.projectspring.api.entities.Role;
@@ -38,11 +37,8 @@ import jakarta.transaction.Transactional;
  */
 @Service
 public class UserServiceImpl
-    extends GenericServiceImpl<
-    User,
-    UserDto,
-    UserRepository,
-    UserMapper> implements UserDetailsService, UserService {
+        extends GenericServiceImpl<User, UserDto, UserRepository, UserMapper>
+        implements UserDetailsService, UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -57,11 +53,12 @@ public class UserServiceImpl
 
     private static final String USER_NOT_FOUND_WITH_NAME = "Utilisateur introuvable avec le nom: ";
 
-    public UserServiceImpl(UserRepository repository, UserMapper mapper, UserRepository userRepository, RoleRepository roleRepository, PlaceRepository placeRepository) {
-    super(repository, mapper);
-    this.userRepository = userRepository;
-    this.roleRepository = roleRepository;
-    this.placeRepository = placeRepository;
+    public UserServiceImpl(UserRepository repository, UserMapper mapper, UserRepository userRepository,
+            RoleRepository roleRepository, PlaceRepository placeRepository) {
+        super(repository, mapper);
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.placeRepository = placeRepository;
     }
 
     /**
@@ -71,126 +68,136 @@ public class UserServiceImpl
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Optional<User> user = userRepository.findByUsername(username);
-    if (user.isEmpty()) {
-        String message = String.format(USER_NOT_FOUND_MESSAGE, username);
-        LOGGER.error(message);
-        throw new UsernameNotFoundException(message);
-    } else {
-        LOGGER.debug(USER_FOUND_MESSAGE, username);
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.get().getRoles().forEach(role -> {
-        authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isEmpty()) {
+            String message = String.format(USER_NOT_FOUND_MESSAGE, username);
+            LOGGER.error(message);
+            throw new UsernameNotFoundException(message);
+        } else {
+            LOGGER.debug(USER_FOUND_MESSAGE, username);
+            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            user.get().getRoles().forEach(role -> {
+                authorities.add(new SimpleGrantedAuthority(role.getName()));
+            });
 
-        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(),
-            authorities);
-    }
+            return new org.springframework.security.core.userdetails.User(user.get().getUsername(),
+                    user.get().getPassword(),
+                    authorities);
+        }
     }
 
     public User createUser(UserDto userDto) {
-    Optional<User> existingUser = repository.findByUsername(userDto.getUsername());
-    if (existingUser.isPresent()) {
-        throw new RuntimeException("L'adresse ou le nom d'utilisateur est déjà utilisée.");
-    }
+        Optional<User> existingUser = repository.findByUsername(userDto.getUsername());
+        if (existingUser.isPresent()) {
+            throw new RuntimeException("L'adresse ou le nom d'utilisateur est déjà utilisée.");
+        }
 
-    User user = toEntity(userDto);
+        User user = toEntity(userDto);
 
-    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-    Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
-    if (userRole.isEmpty()) {
-        Role newRole = new Role();
-        newRole.setName("ROLE_USER");
-        roleRepository.save(newRole);
-        userRole = Optional.of(newRole);
-    }
+        Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
+        if (userRole.isEmpty()) {
+            Role newRole = new Role();
+            newRole.setName("ROLE_USER");
+            roleRepository.save(newRole);
+            userRole = Optional.of(newRole);
+        }
 
-    user.getRoles().add(userRole.get());
+        user.getRoles().add(userRole.get());
 
-    return repository.save(user);
+        return repository.save(user);
     }
 
     @Transactional
     public User addPlaceToFavorite(List<Long> placeIds) {
-    Long userId = getAuthenticatedUserId();
-    User user = repository.findById(userId)
-        .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_WITH_NAME + userId));
+        Long userId = getAuthenticatedUserId();
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_WITH_NAME + userId));
 
-    Set<Place> places = new HashSet<>(placeRepository.findAllById(placeIds));
+        Set<Place> places = new HashSet<>(placeRepository.findAllById(placeIds));
 
-    if (places.isEmpty()) {
-        throw new IllegalArgumentException("Aucun lieu trouvé avec les IDs fournis");
-    }
+        if (places.isEmpty()) {
+            throw new IllegalArgumentException("Aucun lieu trouvé avec les IDs fournis");
+        }
 
-    user.getRecording().addAll(places);
+        user.getRecording().addAll(places);
 
-    return repository.save(user);
+        return repository.save(user);
     }
 
     @Transactional
     public User removeFavorite(Long placeId) {
-    Long userId = getAuthenticatedUserId();
-    User user = repository.findById(userId)
-        .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId));
+        Long userId = getAuthenticatedUserId();
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId));
 
-    Place place = placeRepository.findById(placeId)
-        .orElseThrow(() -> new IllegalArgumentException("Lieu introuvable"));
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new IllegalArgumentException("Lieu introuvable"));
 
-    user.getRecording().remove(place);
+        user.getRecording().remove(place);
 
-    return repository.save(user);
+        return repository.save(user);
     }
 
     @Transactional
     public User addPlaceToLater(List<Long> placeIds) {
-    Long userId = getAuthenticatedUserId();
-    User user = repository.findById(userId)
-        .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId));
+        Long userId = getAuthenticatedUserId();
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId));
 
-    Set<Place> places = new HashSet<>(placeRepository.findAllById(placeIds));
+        Set<Place> places = new HashSet<>(placeRepository.findAllById(placeIds));
 
-    if (places.isEmpty()) {
-        throw new IllegalArgumentException("Aucun lieu trouvé avec les IDs fournis");
-    }
+        if (places.isEmpty()) {
+            throw new IllegalArgumentException("Aucun lieu trouvé avec les IDs fournis");
+        }
 
-    user.getToLater().addAll(places);
+        user.getToLater().addAll(places);
 
-    return repository.save(user);
+        return repository.save(user);
     }
 
     @Transactional
     public User removeForLater(Long placeId) {
-    Long userId = getAuthenticatedUserId();
-    User user = repository.findById(userId)
-        .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId));
+        Long userId = getAuthenticatedUserId();
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId));
 
-    Place place = placeRepository.findById(placeId)
-        .orElseThrow(() -> new IllegalArgumentException("Lieu introuvable"));
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new IllegalArgumentException("Lieu introuvable"));
 
-    user.getToLater().remove(place);
+        user.getToLater().remove(place);
 
-    return repository.save(user);
+        return repository.save(user);
     }
 
     public Set<Place> getFavoriteByUserId() {
-    Long userId = getAuthenticatedUserId();
-    Optional<User> userOptional = repository.findById(userId);
-    if (userOptional.isEmpty()) {
-        throw new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId);
+        Long userId = getAuthenticatedUserId();
+        Optional<User> userOptional = repository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId);
+        }
+        return userOptional.get().getRecording();
     }
-    return userOptional.get().getRecording();
+
+    public Set<Place> getToLaterByUserId() {
+        Long userId = getAuthenticatedUserId();
+        Optional<User> userOptional = repository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("Utilisateur introuvable avec l'ID: " + userId);
+        }
+        return userOptional.get().getToLater();
     }
 
     private Long getAuthenticatedUserId() {
-    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    String username = (principal instanceof UserDetails userDetails) ? userDetails.getUsername()
-        : principal.toString();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = (principal instanceof UserDetails userDetails) ? userDetails.getUsername()
+                : principal.toString();
 
-    User user = repository.findByUsername(username)
-        .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
+        User user = repository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec le nom: " + username));
 
-    return user.getId();
+        return user.getId();
     }
 }

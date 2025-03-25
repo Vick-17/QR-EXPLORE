@@ -44,8 +44,8 @@ public class CommentController extends GenericController<CommentDto, CommentServ
     }
 
     @GetMapping(value = "/getCommentsByUser")
-    public List<CommentDto> getCommentsByUser(@RequestParam Long userId) {
-        return service.getCommentsByUser(userId).stream()
+    public List<CommentDto> getCommentsByUser() {
+        return service.getCommentsByUser().stream()
                 .map(mapper::toDto)
                 .toList();
     }
