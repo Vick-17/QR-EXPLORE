@@ -16,10 +16,5 @@ public class PlaceType extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String name;
 
-<<<<<<< HEAD:api/src/main/java/com/projectspring/api/Entities/PlaceType.java
-    @OneToMany(mappedBy = "placeType")
-    private List<PlaceSubType> placeSubtypes;
-=======
->>>>>>> origin/feat-CREATE-QRCODE:api/src/main/java/com/projectspring/api/entities/PlaceType.java
 
 }

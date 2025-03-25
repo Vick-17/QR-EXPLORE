@@ -1,13 +1,10 @@
 package com.projectspring.api.services;
 
 import com.projectspring.api.dtos.PlaceDto;
-<<<<<<< HEAD:api/src/main/java/com/projectspring/api/Services/PlaceServiceImpl.java
 
 import java.util.List;
 
-=======
 import org.springframework.beans.factory.annotation.Qualifier;
->>>>>>> origin/feat-CREATE-QRCODE:api/src/main/java/com/projectspring/api/services/PlaceServiceImpl.java
 import org.springframework.stereotype.Service;
 
 import com.projectspring.api.entities.Place;

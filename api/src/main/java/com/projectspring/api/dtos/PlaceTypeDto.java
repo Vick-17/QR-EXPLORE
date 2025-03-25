@@ -13,9 +13,4 @@ import java.io.Serializable;
 @Value
 public class PlaceTypeDto extends BaseDto implements Serializable {
     String name;
-<<<<<<< HEAD
-    List<PlaceSubTypeDto> placeSubtypes;
-    List<PlaceDto> places;
-=======
->>>>>>> origin/feat-CREATE-QRCODE
 }
