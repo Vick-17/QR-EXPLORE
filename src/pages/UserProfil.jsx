@@ -2,12 +2,15 @@
 import { useState } from 'react';
 import { get } from '../service/BackendService';
 import { useEffect } from 'react';
+import { jwtDecode } from "jwt-decode";
 
 const UserProfil = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [favoritePlaces, setFavoritePlaces] = useState([]);
     const [placesToVisit, setPlacesToVisit] = useState([]);
     const [userComments, setUserComments] = useState([]);
+    const [username, setUsername] = useState("");
+    
 
 
     const visitedPlaces = ['Place 1', 'Place 2', 'Place 3'];
@@ -45,14 +48,17 @@ const UserProfil = () => {
         getFavoritePlaces();
         getToLaterPlaces();
         getCommentByUserId();
+        const token = localStorage.getItem("userToken");
+        
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            setUsername(decodedToken.sub || "Utilisateur");
+        }
     }, []);
 
     return (
         <div className="user-profil" style={{ padding: '20px' }}>
-            <h1 className="user-profil__title">Profil Utilisateur</h1>
-            <div className="user-profil__header">
-                <h2>Bienvenue, <span className="user-profil__username">{localStorage.getItem('username') || 'Utilisateur'}</span>!</h2>
-            </div>
+            <h1 className="user-profil__title">Bienvenue, <span className="user-profil__username">{username}</span></h1>
             <div className='user-profil__content'>
                 <section className="user-profil__section visited-places">
                     <h2 className="section__title">Lieux déjà visités</h2>
