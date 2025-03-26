@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
 @Service
@@ -64,35 +65,61 @@ public class PlaceServiceImpl
     }
 
     @Override
-    public void addPicture(long id, MultipartFile picture) {
-        repository.findById(id).ifPresent(place -> savePicture(picture, place));
-    }
+    public PlaceDto addPicture(long id, PlaceDto placeDto) {
+        Place existingPlace = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found"));
 
-    private void savePicture(MultipartFile picture, Place place) {
-
-        try {
-            String imageName = "";
-            if (picture != null && !picture.isEmpty()) {
-                String storageHash = fileStorageService.getStorageHash(picture).get();
-                Path rootLocation = fileStorageService.getRootLocation();
-                String fileExtension = fileStorageService.mimeTypeToExtension(picture.getContentType());
-                storageHash += fileExtension;
-                Path saveLocation = rootLocation.resolve(storageHash);
-                Files.deleteIfExists(saveLocation);
-                Files.copy(picture.getInputStream(), saveLocation);
-                imageName = storageHash;
+        String imageName = "";
+        MultipartFile picture = placeDto.getPicture();
+        if (picture != null && !picture.isEmpty()) {
+            String fileExtension = fileStorageService.mimeTypeToExtension(picture.getContentType());
+            if (fileExtension == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid file type");
             }
-
-            place.setImageName(imageName);
-            place.setPicture(picture);
-
-            repository.saveAndFlush(place);
-
-        } catch (IOException e) {
-            LOGGER.error("Erreur lors de la sauvegarde de l'image du lieu", e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Erreur lors de la sauvegarde de l'image du lieu");
+            String storageHash = fileStorageService.getStorageHash(picture).orElseThrow(
+                    () -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                            "Failed to generate file hash"));
+            Path saveLocation = fileStorageService.getRootLocation().resolve(storageHash + fileExtension);
+            try {
+                Files.deleteIfExists(saveLocation);
+                Files.copy(picture.getInputStream(), saveLocation, StandardCopyOption.REPLACE_EXISTING);
+                imageName = storageHash + fileExtension;
+            } catch (IOException e) {
+                LOGGER.error("Error saving image", e);
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error saving image");
+            }
         }
 
+        existingPlace.setImageName(imageName);
+
+        return toDto(repository.saveAndFlush(existingPlace));
     }
+
+//    private void savePicture(MultipartFile picture, Place place) {
+//
+//        try {
+//            String imageName = "";
+//            if (picture != null && !picture.isEmpty()) {
+//                String storageHash = fileStorageService.getStorageHash(picture).get();
+//                Path rootLocation = fileStorageService.getRootLocation();
+//                String fileExtension = fileStorageService.mimeTypeToExtension(picture.getContentType());
+//                storageHash += fileExtension;
+//                Path saveLocation = rootLocation.resolve(storageHash);
+//                Files.deleteIfExists(saveLocation);
+//                Files.copy(picture.getInputStream(), saveLocation);
+//                imageName = storageHash;
+//            }
+//
+//            place.setImageName(imageName);
+//            place.setPicture(picture);
+//
+//            repository.saveAndFlush(place);
+//
+//        } catch (IOException e) {
+//            LOGGER.error("Erreur lors de la sauvegarde de l'image du lieu", e);
+//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+//                    "Erreur lors de la sauvegarde de l'image du lieu");
+//        }
+//
+//    }
 }
