@@ -23,7 +23,7 @@ public class UserController extends GenericController<UserDto, UserService> {
     }
 
    @PostMapping("/register")
-   public User regiUser(@RequestBody UserDto user) {
+   public UserDto regiUser(@RequestBody UserDto user) {
        return service.createUser(user);
    }
 

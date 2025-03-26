@@ -86,7 +86,7 @@ public class UserServiceImpl
         }
     }
 
-    public User createUser(UserDto userDto) {
+    public UserDto createUser(UserDto userDto) {
         Optional<User> existingUser = repository.findByUsername(userDto.getUsername());
         if (existingUser.isPresent()) {
             throw new RuntimeException("L'adresse ou le nom d'utilisateur est déjà utilisée.");
@@ -107,7 +107,7 @@ public class UserServiceImpl
 
         user.getRoles().add(userRole.get());
 
-        return repository.save(user);
+        return toDto(repository.save(user));
     }
 
     @Transactional
