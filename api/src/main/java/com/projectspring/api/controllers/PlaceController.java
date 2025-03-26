@@ -7,6 +7,7 @@ import com.projectspring.api.services.PlaceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/places")
@@ -22,4 +23,10 @@ public class PlaceController extends GenericController<PlaceDto, PlaceService> {
                 .status(placeDto.getId() == 0 ? HttpStatus.CREATED : HttpStatus.OK)
                 .body(service.createPlace(placeDto));
     }
+
+    @PostMapping(value = "{id}/picture", consumes = "multipart/form-data")
+    public void addPicture(@PathVariable long id, @RequestParam MultipartFile picture) {
+        service.addPicture(id, picture);
+    }
+
 }

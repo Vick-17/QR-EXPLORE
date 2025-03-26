@@ -28,6 +28,8 @@ public class Place extends BaseEntity {
     @Transient
     private MultipartFile picture;
 
+    private String imageName;
+
     @ManyToOne
     @JoinColumn(name = "place_type_id")
     private PlaceType placeType;

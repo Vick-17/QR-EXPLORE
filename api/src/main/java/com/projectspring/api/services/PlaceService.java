@@ -6,6 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface PlaceService extends GenericService<PlaceDto> {
     PlaceDto createPlace(PlaceDto placeDto);
-
-//    void addPicture(long id, MultipartFile picture);
+    void addPicture(long id, MultipartFile picture);
 }

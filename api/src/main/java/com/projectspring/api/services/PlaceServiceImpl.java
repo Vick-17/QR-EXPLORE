@@ -5,14 +5,22 @@ import com.projectspring.api.entities.PlaceType;
 import com.projectspring.api.exceptions.PlaceAlreadyPresentException;
 import com.projectspring.api.repositories.PlaceTypeRepository;
 import com.projectspring.api.services.Filestorage.FileStorageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.projectspring.api.entities.Place;
 import com.projectspring.api.generic.GenericServiceImpl;
 import com.projectspring.api.mappers.PlaceMapper;
 import com.projectspring.api.repositories.PlaceRepository;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 
 @Service
@@ -23,6 +31,7 @@ public class PlaceServiceImpl
         PlaceRepository,
         PlaceMapper> implements PlaceService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommentServiceImpl.class);
     private final FileStorageService fileStorageService;
     private final PlaceTypeRepository placeTypeRepository;
 
@@ -54,12 +63,36 @@ public class PlaceServiceImpl
         return toDto(repository.saveAndFlush(place));
     }
 
-    //    @Override
-//    public void addPicture(long id, MultipartFile picture) {
-//        repository.findById(id).ifPresent(place -> savePlace(picture, place));
-//    }
-//
-//    private Place savePlace(MultipartFile picture, Place place) {
-//        return repository.save(place.setPicture(fileStorageService.store(picture)));
-//    }
+    @Override
+    public void addPicture(long id, MultipartFile picture) {
+        repository.findById(id).ifPresent(place -> savePicture(picture, place));
+    }
+
+    private void savePicture(MultipartFile picture, Place place) {
+
+        try {
+            String imageName = "";
+            if (picture != null && !picture.isEmpty()) {
+                String storageHash = fileStorageService.getStorageHash(picture).get();
+                Path rootLocation = fileStorageService.getRootLocation();
+                String fileExtension = fileStorageService.mimeTypeToExtension(picture.getContentType());
+                storageHash += fileExtension;
+                Path saveLocation = rootLocation.resolve(storageHash);
+                Files.deleteIfExists(saveLocation);
+                Files.copy(picture.getInputStream(), saveLocation);
+                imageName = storageHash;
+            }
+
+            place.setImageName(imageName);
+            place.setPicture(picture);
+
+            repository.saveAndFlush(place);
+
+        } catch (IOException e) {
+            LOGGER.error("Erreur lors de la sauvegarde de l'image du lieu", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Erreur lors de la sauvegarde de l'image du lieu");
+        }
+
+    }
 }

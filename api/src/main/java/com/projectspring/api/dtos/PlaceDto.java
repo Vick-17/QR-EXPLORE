@@ -16,4 +16,5 @@ public class PlaceDto extends BaseDto implements Serializable {
     String description;
     String location;
     PlaceTypeDto placeType;
+    String imageName;
 }
