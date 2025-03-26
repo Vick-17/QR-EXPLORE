@@ -8,11 +8,12 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.projectspring.api.dtos.UserDto;
+import com.projectspring.api.entities.Place;
+import com.projectspring.api.entities.Role;
 import com.projectspring.api.entities.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,11 +22,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.projectspring.api.generic.GenericService;
 import com.projectspring.api.generic.GenericServiceImpl;
 import com.projectspring.api.mappers.UserMapper;
-import com.projectspring.api.entities.Place;
-import com.projectspring.api.entities.Role;
 import com.projectspring.api.repositories.PlaceRepository;
 import com.projectspring.api.repositories.RoleRepository;
 import com.projectspring.api.repositories.UserRepository;
@@ -39,11 +37,8 @@ import jakarta.transaction.Transactional;
  */
 @Service
 public class UserServiceImpl
-        extends GenericServiceImpl<
-        User,
-        UserDto,
-        UserRepository,
-        UserMapper> implements UserDetailsService, UserService {
+        extends GenericServiceImpl<User, UserDto, UserRepository, UserMapper>
+        implements UserDetailsService, UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -73,16 +68,12 @@ public class UserServiceImpl
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // ATTENTION -> objet de la classe "models.User"
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
-            // pas d'utilisateur, on renvoie une exception
             String message = String.format(USER_NOT_FOUND_MESSAGE, username);
             LOGGER.error(message);
             throw new UsernameNotFoundException(message);
         } else {
-            // utilisateur retrouvé, on instancie une liste d' "authorities" qui
-            // correspondent à des roles
             LOGGER.debug(USER_FOUND_MESSAGE, username);
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             user.get().getRoles().forEach(role -> {
