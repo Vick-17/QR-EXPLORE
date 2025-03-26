@@ -58,6 +58,25 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+body {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.main {
+  /* height: 100vh; */
+}
+
+main, .main {
+  /* margin-top: 5rem; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 body, html {
   margin: 0;
   padding: 0;
@@ -67,9 +86,11 @@ body, html {
 }
 
 main {
-  flex-grow: 1; /* Pour que le contenu prenne tout l'espace dispo entre le header et le footer */
+  margin-top: 5rem;
+  /* flex-grow: 1; Pour que le contenu prenne tout l'espace dispo entre le header et le footer */
   padding: 20px;
   width: 100%;
+  height: 90vh;
 }
 
 header {
@@ -80,21 +101,6 @@ header {
   color: #3B3B3B;
   padding: 10px;
   text-align: center;
-}
-
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #C9B99A;
-  color: #3B3B3B;
-  padding: 10px;
-  text-align: center;
-  z-index: 55;
-}
-
-.main {
-  width: 100rem;
 }
 
 

@@ -1,14 +1,17 @@
 import { useState } from "react";
 
 import "../Style/pages/SignUp.css"
+import { post } from "../service/BackendService";
 
 const SignUp = () => {
+  const endPoint = "/register";
+
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
     email: "",
+    first_name: "",
+    last_name: "",
     password: "",
+    username: "",
   });
 
   const [passwordError, setPasswordError] = useState("");
@@ -29,8 +32,11 @@ const SignUp = () => {
       return;
     }
 
+    // console.log("Token récupéré :", localStorage.getItem("userToken"));
+    // console.log(formData);
     setPasswordError("");
-    console.log("Formulaire soumis avec succès :", formData);
+    post(endPoint, formData);
+    // console.log("Formulaire soumis avec succès :", formData);
   };
 
   return (
@@ -40,11 +46,11 @@ const SignUp = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">First Name</label>
-            <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleChange} required />
+            <input type="text" className="form-control" name="first_name" value={formData.first_name} onChange={handleChange} required />
           </div>
           <div className="mb-3">
             <label className="form-label">Last Name</label>
-            <input type="text" className="form-control" name="lastName" value={formData.lastName} onChange={handleChange} required />
+            <input type="text" className="form-control" name="last_name" value={formData.last_name} onChange={handleChange} required />
           </div>
           <div className="mb-3">
             <label className="form-label">Username</label>
