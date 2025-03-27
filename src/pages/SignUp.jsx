@@ -3,14 +3,17 @@ import { useState } from "react";
 import { post } from "../service/BackendService";
 
 import "../Style/pages/SignUp.css"
+import { post } from "../service/BackendService";
 
 const SignUp = () => {
+  const endPoint = "/register";
+
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
     email: "",
+    first_name: "",
+    last_name: "",
     password: "",
+    username: "",
   });
   const [loading, setLoading] = useState(false);
 

@@ -6,6 +6,10 @@ import HomePage from './pages/HomePage';
 import Auth from './pages/Auth';
 import SignUp from './pages/SignUp';
 import UserProfil from './pages/UserProfil';
+import About from './pages/About';
+import LegalMentions from './pages/MentionsLegales'
+import CookiesPolicy from './pages/Cookies';
+
 import './Style/App.css';
 import PlacesAddition from "./pages/PlacesAddition.jsx";
 
@@ -27,6 +31,9 @@ function App() {
             element={userToken ? <UserProfil /> : <Auth />} 
           />
           <Route path='/addition-places' element={<PlacesAddition />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/mentions-legales' element={<LegalMentions />} />
+          <Route path='/cookies' element={<CookiesPolicy />} />
         </Route>
       </Routes>
     </Router>
