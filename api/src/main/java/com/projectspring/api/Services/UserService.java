@@ -10,7 +10,7 @@ import com.projectspring.api.generic.GenericService;
 
 public interface UserService extends GenericService<UserDto> {
 
-    UserDto createUser(UserDto user);
+    User createUser(UserDto user);
 
     User removeForLater(Long placeId);
 
