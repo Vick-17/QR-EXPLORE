@@ -3,7 +3,7 @@ import "../Style/pages/About.css"; // Import du fichier CSS
 
 function About() {
   return (
-    <div className="container my-5">
+    <div className="container_about">
       <h1 className="text-center mb-4">À propos de QR-EXPLORE</h1>
       <div className="card p-4 shadow-lg">
         <h2>Notre Histoire</h2>
