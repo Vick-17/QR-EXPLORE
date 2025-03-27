@@ -3,17 +3,14 @@ import { useState } from "react";
 import { post } from "../service/BackendService";
 
 import "../Style/pages/SignUp.css"
-import { post } from "../service/BackendService";
 
 const SignUp = () => {
-  const endPoint = "/register";
-
   const [formData, setFormData] = useState({
-    email: "",
-    first_name: "",
-    last_name: "",
-    password: "",
+    firstName: "",
+    lastName: "",
     username: "",
+    email: "",
+    password: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +22,7 @@ const SignUp = () => {
   // };
 
   const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
 
@@ -41,6 +38,9 @@ const SignUp = () => {
     } finally {
       setLoading(false);
     }
+
+
+
   };
 
   return (
@@ -49,7 +49,7 @@ const SignUp = () => {
         <h2 className="text-center mb-4">Inscription</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label className="form-label">Nom de famille</label>
+            <label className="form-label">Nom de fammille</label>
             <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleChange} required />
           </div>
           <div className="mb-3">

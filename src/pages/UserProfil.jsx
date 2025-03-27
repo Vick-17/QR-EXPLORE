@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { get } from '../service/BackendService';
 import { useEffect } from 'react';
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 const UserProfil = () => {
     const [isLoading, setIsLoading] = useState(true);
