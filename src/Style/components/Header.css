@@ -50,17 +50,12 @@ header {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(35%);
+  /* transform: translateX(35%); */
   z-index: 100;
-<<<<<<< HEAD
 }
-=======
-}
-
-
 
   /* Header */
-  .header {
+  /* .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,6 +63,5 @@ header {
     position: relative;
     margin-top: 20px;
     margin-right: 20%;
-    /* background-color: rgba(0, 0, 0, 0.6); Fond semi-transparent */
-  }
->>>>>>> origin/feat-CREATE-QRCODE
+    background-color: rgba(0, 0, 0, 0.6); Fond semi-transparent
+  } */

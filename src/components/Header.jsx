@@ -23,10 +23,9 @@ const Header = () => {
                 <div className="collapse navbar-collapse items-button" id="navbarNavAltMarkup">
                     <div className="navbar-nav items">
                         <Link to="/" className='nav-link active items'>Accueil</Link>
-                        {/* <a className="nav-link active items" aria-current="page" href="#">Home</a> */}
                     </div>
                     <div className="navbar-nav items">
-                        <a className="nav-link active items" href="#">À propos</a>
+                        <Link to="/about" className='nav-link active items'>À propos</Link>
                     </div>
 
                     <div className="dropdown">
@@ -34,9 +33,15 @@ const Header = () => {
                             QR Explore
                         </button>
                         <ul className="dropdown-menu items dropdown-button">
-                            <li><a className="dropdown-item " href="/addition-places">Ajout de lieux avec QR code</a></li>
-                            <li><a className="dropdown-item" href="#">Consultation des lieux</a></li>
-                            <li><a className="dropdown-item" href="#">Autre action</a></li>
+                            <li>
+                                <Link to="/addition-places" className='dropdown-item'>Ajout de lieux avec QR code</Link>
+                            </li>
+                            <li>
+                                <Link to="/view-places" className='dropdown-item'>Consultation des lieux</Link>
+                            </li>
+                            <li>
+                                <Link to="/autres-actions" className='dropdown-item'>Autre action</Link>
+                            </li>
                         </ul>
                     </div>
                 </div>

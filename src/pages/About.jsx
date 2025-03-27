@@ -1,5 +1,5 @@
 // import React from "react";
-import "../Style/pages/HomePage.css"; // Import du fichier CSS
+import "../Style/pages/About.css"; // Import du fichier CSS
 
 function About() {
   return (

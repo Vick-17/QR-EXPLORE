@@ -10,8 +10,6 @@ const UserProfil = () => {
     const [placesToVisit, setPlacesToVisit] = useState([]);
     const [userComments, setUserComments] = useState([]);
     const [username, setUsername] = useState("");
-    
-
 
     const visitedPlaces = ['Place 1', 'Place 2', 'Place 3'];
 

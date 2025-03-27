@@ -1,0 +1,44 @@
+.construction-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    text-align: center;
+}
+
+.construction-icon {
+    font-size: 80px;
+    color: #ff9800;
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+h1 {
+    font-size: 2em;
+    margin: 20px 0;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #ff9800;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-top: 20px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

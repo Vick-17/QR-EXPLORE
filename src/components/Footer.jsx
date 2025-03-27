@@ -12,8 +12,8 @@ const Footer = () => {
             <p className="mb-0 footer-items">© {new Date().getFullYear()} QR-EXPLORE. Tous droits réservés.</p>
           </Col>
           <Col md={6} className="text-md-end">
-            <Link to="/mentions-legales" className="me-3 footer-items">Mentions légales</Link>
-            <Link to="/cookies" className="footer-items">Gestion des cookies</Link>
+            <Link to="/mentions-legales" className="me-3 footer-items footer-link">Mentions légales</Link>
+            <Link to="/cookies" className="footer-items footer-link">Gestion des cookies</Link>
           </Col>
         </Row>
       </Container>

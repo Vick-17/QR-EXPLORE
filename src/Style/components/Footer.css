@@ -8,3 +8,15 @@ footer {
     text-align: center;
     z-index: 55;
 }
+
+.footer-items {
+    color: #3B3B3B;
+}
+
+.footer-link {
+    text-decoration: inherit !important;
+}
+
+.footer-link:hover {
+    color: #3B3B3B;
+}
