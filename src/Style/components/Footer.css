@@ -10,11 +10,11 @@ footer {
 }
 
 .footer-items {
-    color: #3B3B3B;
+    color: #3B3B3B !important;
 }
 
 .footer-link {
-    text-decoration: inherit !important;
+    text-decoration: none !important;
 }
 
 .footer-link:hover {

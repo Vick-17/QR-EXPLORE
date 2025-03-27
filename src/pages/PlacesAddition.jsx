@@ -30,7 +30,7 @@ function PlacesAddition() {
   };
 
   return (
-    <Box sx={{ width: '100%', mt: 2}}>
+    <Box sx={{ width: '90%', mt: 2, mx: 'auto'}}>
       <Stepper activeStep={activeStep}>
         {steps.map((label) => {
           const stepProps = {};
