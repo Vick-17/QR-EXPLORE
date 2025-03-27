@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.projectspring.api.entities.Place;
 
-public interface PlaceRepository extends JpaRepository<Place, Long> {
+import java.util.Optional;
 
-    List<Place> findByNameStartingWithIgnoreCase(String name);
-    
+public interface PlaceRepository extends JpaRepository<Place, Long> {
+    Optional<Place> findByName(String name);
 }

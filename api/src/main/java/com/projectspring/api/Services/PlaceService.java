@@ -6,5 +6,6 @@ import com.projectspring.api.dtos.PlaceDto;
 import com.projectspring.api.generic.GenericService;
 
 public interface PlaceService extends GenericService<PlaceDto> {
-    List<PlaceDto> search(String name);
+    PlaceDto createPlace(PlaceDto placeDto);
+    PlaceDto addPicture(long id, PlaceDto placeDto);
 }

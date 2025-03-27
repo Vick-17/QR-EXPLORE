@@ -3,6 +3,7 @@ package com.projectspring.api.dtos;
 import com.projectspring.api.generic.BaseDto;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 
@@ -15,5 +16,7 @@ public class PlaceDto extends BaseDto implements Serializable {
     String name;
     String description;
     String location;
+    MultipartFile picture;
+    String imageName;
     PlaceTypeDto placeType;
 }

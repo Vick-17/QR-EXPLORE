@@ -19,7 +19,7 @@ public class Place extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String name;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String description;
     @Column(nullable = false)
     private String location;
@@ -28,7 +28,9 @@ public class Place extends BaseEntity {
     @Transient
     private MultipartFile picture;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private String imageName;
+
+    @ManyToOne
     @JoinColumn(name = "place_type_id")
     private PlaceType placeType;
 
