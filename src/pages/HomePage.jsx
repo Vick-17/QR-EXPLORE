@@ -14,7 +14,7 @@ function Welcome() {
           Voici un petit texte qui décrit quelque chose d&apos;intéressant.
         </Typography>
         <Button variant="contained" className="button">
-          <Link to='/about' className="homepage-items">Explorer maintenant</Link>
+          <Link to='/list-places' className="homepage-items">Explorer maintenant</Link>
         </Button>
       </Box>
 

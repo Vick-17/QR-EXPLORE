@@ -6,10 +6,11 @@ const CardPlace = ({ id, name, description }) => {
 
     const handleToLater = async () => {
         try {
-            await post(
+            const response = await post(
                 `/users/toLater`,
                 [id]
             );
+            console.log(response);
         } catch (e) {
             console.error("Error adding to later", e);
         }
@@ -18,10 +19,12 @@ const CardPlace = ({ id, name, description }) => {
 
     const handleToFavorite = async () => {
         try {
-            await post(
+            const response = await post(
                 `/users/favorites`,
                 [id]
             );
+            console.log(response);
+            
         } catch (e) {
             console.error("Error adding to later", e);
         }
