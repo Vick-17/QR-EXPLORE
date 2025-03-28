@@ -4,6 +4,8 @@ import com.projectspring.api.dtos.PlaceDto;
 import com.projectspring.api.generic.GenericController;
 import com.projectspring.api.services.PlaceService;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,11 @@ public class PlaceController extends GenericController<PlaceDto, PlaceService> {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(service.addPicture(id, placeDto));
+    }
+
+    @GetMapping("/search")
+    public List<PlaceDto> search(@RequestParam String name) {
+        return service.search(name);
     }
 
 }

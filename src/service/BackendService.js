@@ -39,8 +39,29 @@ async function get(endpoint) {
     }
 }
 
-
 async function post(endpoint, data) {
+    const url = `${apiUrl.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
+
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: getDefaultHeaders(),
+            credentials: "include",
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP! Statut : ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Erreur lors de l'appel POST à l'API:", error.message);
+        throw error;
+    }
+}
+
+
+async function postUser(endpoint, data) {
     const url = `${apiUrl.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
 
     try {
@@ -157,4 +178,4 @@ async function login(userData) {
     }
 }
 
-export { get, post, put, del, postFile, login };
+export { get, post, put, del, postFile, login, postUser };

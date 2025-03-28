@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { get } from '../service/BackendService';
 import { useEffect } from 'react';
 import jwtDecode from "jwt-decode";
+import '../Style/pages/UserProfil.css';
 
 const UserProfil = () => {
     const [isLoading, setIsLoading] = useState(true);

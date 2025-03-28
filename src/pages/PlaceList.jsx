@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "../Style/pages/PlaceList.css";
 import { get } from "../service/BackendService";
+import CardPlace from "../components/CardPlace";
 
 const PlaceList = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -12,7 +13,7 @@ const PlaceList = () => {
     const getPlaces = async (page = 0) => {
         try {
             setIsLoading(true);
-            const response = await get(`/places?page=${page}&size=6`);
+            const response = await get(`/places?page=${page}&size=8`);
             setPlaces(response.content);
             setTotalPages(response.totalPages);
             setIsLoading(false);
@@ -22,22 +23,35 @@ const PlaceList = () => {
         }
     };
 
+    const searchPlaces = async (term) => {
+        try {
+            setIsLoading(true);
+            const response = await get(`/places/search?name=${term}`);
+            setPlaces(response);
+            setTotalPages(1); // On suppose qu'il n'y a qu'une seule page pour les résultats de recherche
+            setCurrentPage(0);
+            setIsLoading(false);
+        } catch (error) {
+            console.error("Une erreur s'est produite lors de la recherche des lieux", error);
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        getPlaces(currentPage);
-    }, [currentPage]);
+        if (searchTerm.trim() === "") {
+            getPlaces(currentPage);
+        } else {
+            searchPlaces(searchTerm);
+        }
+    }, [searchTerm, currentPage]);
 
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);
-        setCurrentPage(0);
     };
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
-    const filteredPlaces = places.filter((place) =>
-        place.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     return (
         <div className="container">
@@ -55,21 +69,13 @@ const PlaceList = () => {
                 {isLoading ? (
                     <p>Loading...</p>
                 ) : (
-                    filteredPlaces.map((place) => (
-                        <div className="place-card" key={place.id}>
-                            <div className="place-details">
-                                <h2 className="place-title">{place.name}</h2>
-                                <p className="place-description">{place.description}</p>
-                                <div className="place-actions">
-                                    <button className="btn_action">
-                                        Save to Favorites
-                                    </button>
-                                    <button className="btn_action">
-                                        Save for Later
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    places.map((place) => (
+                        <CardPlace
+                            key={place.id}
+                            id={place.id}
+                            name={place.name}
+                            description={place.description}
+                        />
                     ))
                 )}
             </div>

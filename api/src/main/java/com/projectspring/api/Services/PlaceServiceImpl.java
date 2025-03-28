@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -93,6 +94,13 @@ public class PlaceServiceImpl
         existingPlace.setImageName(imageName);
 
         return toDto(repository.saveAndFlush(existingPlace));
+    }
+
+    public List<PlaceDto> search(String name) {
+        List<Place> places = repository.findByNameStartingWithIgnoreCase(name);
+        return places.stream()
+                .map(mapper::toDto)
+                .toList();
     }
 
 //    private void savePicture(MultipartFile picture, Place place) {

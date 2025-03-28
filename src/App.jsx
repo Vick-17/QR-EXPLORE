@@ -10,6 +10,7 @@ import About from './pages/About';
 import LegalMentions from './pages/MentionsLegales'
 import CookiesPolicy from './pages/Cookies';
 import UnderDev from './pages/UnderDev.jsx';
+import PlaceList from './pages/PlaceList.jsx';
 
 import PlacesAddition from "./pages/PlacesAddition.jsx";
 import './Style/App.css';
@@ -17,7 +18,7 @@ import './Style/App.css';
 function App() {
 
 
-  const userToken = localStorage.getItem('userToken');
+  const userToken = localStorage.getItem('userToken') || null;
 
   return (
     <Router>
@@ -27,15 +28,15 @@ function App() {
           <Route path='/auth' element={<Auth />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/places' />
+          <Route path='/list-places' element={<PlaceList />} />
           <Route 
             path='/profile'
-            element={userToken ? <UserProfil /> : <Auth />} 
+            element={userToken && userToken !== 'null' ? <UserProfil /> : <Auth />} 
           />
           <Route path='/addition-places' element={<PlacesAddition />} />
           <Route path='/about' element={<About />} />
           <Route path='/mentions-legales' element={<LegalMentions />} />
           <Route path='/cookies' element={<CookiesPolicy />} />
-          <Route path='/view-places' element={<UnderDev />} />
           <Route path='/autres-actions' element={<UnderDev />} />
 
         </Route>

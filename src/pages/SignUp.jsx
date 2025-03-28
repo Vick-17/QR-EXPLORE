@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import { post } from "../service/BackendService";
+import { postUser } from "../service/BackendService";
 
 import "../Style/pages/SignUp.css"
 
@@ -30,7 +30,7 @@ const SignUp = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await post("/users/register", formData);
+      await postUser("/users/register", formData);
       console.log(formData)
       window.location.href = "/auth";
     } catch (e) {

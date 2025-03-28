@@ -8,4 +8,6 @@ import com.projectspring.api.generic.GenericService;
 public interface PlaceService extends GenericService<PlaceDto> {
     PlaceDto createPlace(PlaceDto placeDto);
     PlaceDto addPicture(long id, PlaceDto placeDto);
+    
+    List<PlaceDto> search(String name);
 }
